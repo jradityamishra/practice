@@ -1,7 +1,7 @@
 import express from 'express'
-import adharmulter from '../middleware/adharmulter.js'
+import adharmulter from '../middlewares/adharmulter.js'
 import {adhar_detail_post_Controller,
-    get_detail_post_Controller} from '../controller/adhardetailController.js';
+    get_detail_post_Controller} from '../controllers/adhardetailController.js';
 
 //Router object
 const router=express.Router();

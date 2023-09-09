@@ -2,6 +2,7 @@ import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
 import connection from "./database/db.js";
+import cookieParser from "cookie-parser";
 import adhardetailRoutes from "./routes/adhardetailRoute.js"
 import apiRoutes from './routes/apiRoutes.js'
 //CONFIG ENV
@@ -14,7 +15,7 @@ const app = express();
 
 // MIDDLEWARES
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // DATABASE CONNECTION
 connection();
