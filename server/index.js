@@ -1,23 +1,47 @@
-import express from "express"
+import express from "express";
 import colors from "colors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import connection from "./database/db.js";
 import adhardetailRoutes from "./routes/adhardetailRoute.js"
+import apiRoutes from './routes/apiRoutes.js'
 //CONFIG ENV
 dotenv.config();
-const PORT=process.env.PORT||8000;
 
-//REST OBJECT
-const app=express();
+const PORT = process.env.PORT || 8000;
 
-//MIDDLEWARE
+// REST OBJECT
+const app = express();
+
+// MIDDLEWARES
 app.use(express.json());
+app.use(cookieParser());
 
-//RSET API
-app.use('/api/v1/adhar',adhardetailRoutes);
+// DATABASE CONNECTION
+connection();
 
-//DATABASE CONNECTION
-connection()
-app.listen(PORT,()=>{
-    console.log(`server Running on PORT ${PORT}`.bgBlue.white)
-})
+// REST API
+app.use("/api", apiRoutes);
+app.use("/adhar",adhardetailRoutes)
+
+app.get("/", async (req, res, next) => {
+  res.json({ message: "API running" });
+});
+
+
+
+// MIDDLEWAREs TO HANDLE ERRORS
+app.use((err, req, res, next) => {
+  console.error(err);
+  next(err);
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({
+    message: err.message,
+    stack: err.stack,
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`.bgBlue.white);
+});
