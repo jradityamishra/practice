@@ -2,7 +2,7 @@ import express from "express"
 import colors from "colors";
 import dotenv from "dotenv"
 import connection from "./database/db.js";
-
+import adhardetailRoutes from "./routes/adhardetailRoute.js"
 //CONFIG ENV
 dotenv.config();
 const PORT=process.env.PORT||8000;
@@ -14,9 +14,7 @@ const app=express();
 app.use(express.json());
 
 //RSET API
-app.get("/",(req,resp)=>{
-    resp.send('homepage')
-})
+app.use('/api/v1/adhar',adhardetailRoutes);
 
 //DATABASE CONNECTION
 connection()
