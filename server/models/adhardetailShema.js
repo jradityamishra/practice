@@ -26,6 +26,10 @@ const adhardetailShema=new mongoose.Schema({
     photo:{
         type:Buffer,
         contentType:{String}
+    },
+    mailConfirm:{
+        type :Boolean ,
+         default:false
     }
 },{timestamps:true})
 export default mongoose.model("adhar",adhardetailShema)
