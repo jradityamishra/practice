@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import adhardetailRoutes from "./routes/adhardetailRoute.js"
 import apiRoutes from './routes/apiRoutes.js'
 import mailAuthRoute from "./routes/mailAuthRoute.js"
+import faceReconitionRoute from './routes/faceRecongnitionRoute.js'
 //CONFIG ENV
 dotenv.config();
 
@@ -25,6 +26,7 @@ connection();
 app.use("/api", apiRoutes);
 app.use("/adhar",adhardetailRoutes)
 app.use('/mailConfirm',mailAuthRoute)
+app.use("/faceRecoginiton",faceReconitionRoute);
 
 app.get("/", async (req, res, next) => {
   res.json({ message: "API running" });
