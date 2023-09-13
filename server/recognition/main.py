@@ -5,21 +5,40 @@ import numpy as np
 import face_recognition
 import time
 import requests
-import cvzone
+import sys
+
+#import cvzone
+photo = sys.argv[1]
+print(photo)
+
+post = requests.post('http://localhost:8001/faceRecoginiton/datapostCv', photo)
+
+data=post.json()
+print("Response from server:", data)
+img=data.get('photo')
+
+
+
+
 
 cap=cv2.VideoCapture(0,cv2.CAP_DSHOW)
 cap.set(3,640) #Width
 cap.set(4,480) #Height
 
-BackgroundImage=cv2.imread("Resources/Background.png")
+# ima=response.content
+# cv2.imshow("Imsges",ima)
+# cv2.waitKey(0)
+#BackgroundImage=cv2.imread("./mode/Background.png")
 
+'''
 #Importing modes into list
-ModeFolder='Resources/mode'
+ModeFolder='./Resources/mode'
 modePathList=os.listdir(ModeFolder)
 imgModeList=[] #List contining mode path
 for path in modePathList:
     imgModeList.append(cv2.imread(os.path.join(ModeFolder,path)))
 
+    '''
 '''
 #Importing Images
 Folder='Images'
@@ -34,16 +53,23 @@ for path in PathList:
 #print(ID)
 
 '''
-image_urls=['https://avatars.githubusercontent.com/u/106857292?v=4']
+
+    
+image_urls=[img]
 imgList = []  # List containing image data
 ID = []
+known_face_detected = False
+def posting():
+    obj={"result":known_face_detected}
+    post = requests.post('http://localhost:8001/faceRecoginiton/datapostresultCv',data=obj )   
+    print("Post")
 
 for url in image_urls:
     # Download the image from the URL
     response = requests.get(url) #Getting images
     img_array = np.frombuffer(response.content, dtype=np.uint8) #Converting into numpy array
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR) #Changinh into image
-
+    
     imgList.append(img)
     ID.append(os.path.splitext(os.path.basename(url))[0])
 
@@ -74,7 +100,7 @@ encodeListKnown,ID=encodeListKnownId
 print("Encoded file Loaded..")
 initime=time.time()
 while True:
-    known_face_detected = False
+    
     time_limit=False
     _,img=cap.read()
 
@@ -85,8 +111,8 @@ while True:
     encodedCurrFrame=face_recognition.face_encodings(imgS,faceCurrFrame)
 
 
-    BackgroundImage[154:154+480,70:70+640]=img
-    BackgroundImage[154:154 + 394, 830:830 + 307] = imgModeList[0]
+    #BackgroundImage[154:154+480,70:70+640]=img
+    #BackgroundImage[154:154 + 394, 830:830 + 307] = imgModeList[0]
 
 
     #Loop through each encodings
@@ -104,7 +130,7 @@ while True:
         if matches[matchIndex] and faceDistance<=0.40:
             print("Known Face Detected")
             known_face_detected = True
-
+            
             print(ID[matchIndex])
             break
             #print(ID[matchIndex])
@@ -118,12 +144,17 @@ while True:
             time_limit=True
             print("Time Limit Exceeded")
             break
-
-    cv2.imshow("Display", BackgroundImage)
+   # post = requests.get('http://localhost:8001/faceRecoginiton/datapostresultCv',known_face_detected )
+   
+    cv2.imshow("Display", img)
+    
     #cv2.imshow("WebCam",img)
-
+    # obj={"result":known_face_detected}
+    # post = requests.post('http://localhost:8001/faceRecoginiton/datapostresultCv',data=obj )   
     cv2.waitKey(1)
     if known_face_detected or time_limit:
         time.sleep(5)
         cv2.destroyAllWindows()  # Close all OpenCV windows
+         
         break
+posting()

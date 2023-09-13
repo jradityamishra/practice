@@ -1,6 +1,7 @@
 import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 import connection from "./database/db.js";
 import cookieParser from "cookie-parser";
 import adhardetailRoutes from "./routes/adhardetailRoute.js"
@@ -16,6 +17,9 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 
 // MIDDLEWARES
+app.set('view engine','ejs');
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json());
 // app.use(cookieParser());
 
