@@ -1,9 +1,10 @@
 import nodemailer from 'nodemailer'
 import dotenv from "dotenv";
+import adhardetailShema from '../models/adhardetailShema.js';
 dotenv.config();
 
 export const mailconfirmController=async(req,resp)=>{
-    const {name,email}=req.body
+    const {name,email,user_id}=req.body
     try{
         const transporter= nodemailer.createTransport(
             {
@@ -21,7 +22,7 @@ export const mailconfirmController=async(req,resp)=>{
             from:"E-vote@gmail.com",
             to:email,
             subject:'for verification yourself',
-            html:"<p>Hi."+" "+name+',please click here to <a href="http://localhost:5000/user/verify?id=">verify</a> your email.</p>'
+            html:"<p>Hi."+" "+name+',please click here to <a href="http://localhost:8001/mailConfirm/verify?id='+user_id+'">verify</a> your email.</p>'
         }
         transporter.sendMail(mailOptions,function(error,info){
             if(error){
@@ -40,4 +41,23 @@ export const mailconfirmController=async(req,resp)=>{
         success:false,
         message:"Not mail send something is wrong"
     })}
+
+
+
+}
+
+
+
+//verify using mail
+
+export const verifymail=async(req,resp)=>{
+try{
+    const id=req.query.id;
+    const data=await adhardetailShema.updateOne({_id:id},
+   {$set:{mailConfirm:true} })
+   //resp.send("mail confirm")
+   resp.render('email-verified');
+}catch(error){
+    console.log(error.message)
+}
 }
