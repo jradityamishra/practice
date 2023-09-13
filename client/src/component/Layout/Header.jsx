@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 // import Logo from "../assets/namelogo-tr.png";
-import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [nav, setNav] = useState(false);
@@ -27,24 +27,24 @@ const Header = () => {
       {verified ? (
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
+            <li className=" border-2 border-white px-1 rounded-md">
+              <Link to="/verify" smooth={true} duration={500}>
+                VERIFY
+              </Link>
+            </li>
             <li>
-              <Link to="home" smooth={true} duration={500}>
+              <Link to="/vote" smooth={true} duration={500}>
                 Vote
               </Link>
             </li>
             <li>
-              <Link to="projects" smooth={true} duration={500}>
+              <Link to="/profile" smooth={true} duration={500}>
                 Profile
               </Link>
             </li>
             <li>
-              <Link to="about" smooth={true} duration={500}>
+              <Link to="/guide" smooth={true} duration={500}>
                 Guide
-              </Link>
-            </li>
-            <li>
-              <Link to="contact" smooth={true} duration={500}>
-                Contact
               </Link>
             </li>
           </ul>
@@ -61,58 +61,58 @@ const Header = () => {
                 : "absolute top-20 left-0 w-full h-100 bg-gray-900 flex flex-col rounded-md justify-center items-center"
             }
           >
-            <li className="py-6 text-4xl">
+            <li className="py-6 text-4xl border-2 border-white px-2">
               <Link
                 onClick={handleClick}
-                to="home"
+                to="/verify"
                 smooth={true}
                 duration={500}
               >
-                Home
+                Verify
               </Link>
             </li>
             <li className="py-6 text-4xl">
               <Link
                 onClick={handleClick}
-                to="projects"
+                to="/vote"
                 smooth={true}
                 duration={500}
               >
-                Projects
+                Vote
               </Link>
             </li>
             <li className="py-6 text-4xl">
               <Link
                 onClick={handleClick}
-                to="about"
+                to="/profile"
                 smooth={true}
                 duration={500}
               >
-                About
+                Profile
               </Link>
             </li>
             <li className="py-6 text-4xl">
               <Link
                 onClick={handleClick}
-                to="contact"
+                to="/guide"
                 smooth={true}
                 duration={500}
               >
-                Contact
+                Guide
               </Link>
             </li>
           </ul>
         </div>
       ) : (
         <div>
-          <Link to="/verify-user">
+          <Link to="/login">
             <button
               onClick={() => {
                 setVerified(true);
               }}
               className="p-2 border-2 border-white rounded-md hover:bg-red-500"
             >
-              VERIFY
+              LOGIN
             </button>
           </Link>
         </div>
