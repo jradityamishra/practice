@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <div className=" w-full h-[80px] mb-6 flex justify-between items-center pl-4 pr-12 text-white bg-gray-900">
-      <Link to="/" smooth={true} duration={500}>
+      <Link to="/" duration={500}>
         <div className="flex flex-row">
           <div>
             <img
@@ -28,22 +28,22 @@ const Header = () => {
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
             <li className=" border-2 border-white px-1 rounded-md">
-              <Link to="/verify" smooth={true} duration={500}>
+              <Link to="/verify" duration={500}>
                 VERIFY
               </Link>
             </li>
             <li>
-              <Link to="/vote" smooth={true} duration={500}>
+              <Link to="/vote" duration={500}>
                 Vote
               </Link>
             </li>
             <li>
-              <Link to="/profile" smooth={true} duration={500}>
+              <Link to="/profile" duration={500}>
                 Profile
               </Link>
             </li>
             <li>
-              <Link to="/guide" smooth={true} duration={500}>
+              <Link to="/guide" duration={500}>
                 Guide
               </Link>
             </li>
@@ -61,43 +61,23 @@ const Header = () => {
                 : "absolute top-20 left-0 w-full h-100 bg-gray-900 flex flex-col rounded-md justify-center items-center"
             }
           >
-            <li className="py-6 text-4xl border-2 border-white px-2">
-              <Link
-                onClick={handleClick}
-                to="/verify"
-                smooth={true}
-                duration={500}
-              >
+            <li className="my-4 text-4xl border-2 border-white p-2 rounded-md">
+              <Link onClick={handleClick} to="/verify" duration={500}>
                 Verify
               </Link>
             </li>
             <li className="py-6 text-4xl">
-              <Link
-                onClick={handleClick}
-                to="/vote"
-                smooth={true}
-                duration={500}
-              >
+              <Link onClick={handleClick} to="/vote" duration={500}>
                 Vote
               </Link>
             </li>
             <li className="py-6 text-4xl">
-              <Link
-                onClick={handleClick}
-                to="/profile"
-                smooth={true}
-                duration={500}
-              >
+              <Link onClick={handleClick} to="/profile" duration={500}>
                 Profile
               </Link>
             </li>
             <li className="py-6 text-4xl">
-              <Link
-                onClick={handleClick}
-                to="/guide"
-                smooth={true}
-                duration={500}
-              >
+              <Link onClick={handleClick} to="/guide" duration={500}>
                 Guide
               </Link>
             </li>
