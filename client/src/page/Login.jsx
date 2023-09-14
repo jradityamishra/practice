@@ -4,25 +4,25 @@ import {
   Container,
   Typography,
   Button,
-  CircularProgress,
+  
   TextField,
-  Checkbox,
-  FormControlLabel,
+  
   Box,
   Paper,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { login, reset } from "../redux/authSlice";
+import {login, reset } from "../redux/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../component/Layout/Layout";
+import Spinner from "../component/Spinner";
 
-const LoginPageComponent = () => {
+const LoginPageComponent = () => { 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    doNotLogout: false,
+    
   });
-  const [error, setError] = useState("");
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoading, isError, isSuccess, message } = useSelector(
@@ -30,10 +30,10 @@ const LoginPageComponent = () => {
   );
 
   const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
+    const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value
     }));
   };
 
@@ -41,8 +41,9 @@ const LoginPageComponent = () => {
     event.preventDefault();
     try {
       dispatch(login(formData));
+     
     } catch (err) {
-      setError(err.message || "An error occurred. Please try again.");
+      toast.error(err.message || "An error occurred. Please try again.");
     }
   };
 
@@ -50,12 +51,15 @@ const LoginPageComponent = () => {
     if (isError) toast.error(message);
     if (isSuccess || (user && !user.isAdmin)) navigate("/");
     else if (isSuccess || (user && user.isAdmin))
-      navigate("/admin/fundraisers/verified");
+      navigate("/admin");
+    else if (isSuccess || (user && user.isSuperAdmin))
+      navigate("/superadmin");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
 
   return (
     <Layout>
+    {isLoading && <Spinner />}
       <Box
         sx={{
           display: "flex",
@@ -67,9 +71,7 @@ const LoginPageComponent = () => {
       >
         <Container maxWidth="xs">
           <Paper sx={{ p: 2, mt: 5 }}>
-            <Typography variant="h4" align="center" sx={{ mb: 2 }}>
-              Login
-            </Typography>
+          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 id="email"
@@ -94,17 +96,7 @@ const LoginPageComponent = () => {
                 margin="normal"
                 type="password"
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formData.doNotLogout}
-                    onChange={handleChange}
-                    name="doNotLogout"
-                    color="primary"
-                  />
-                }
-                label="Do not logout"
-              />
+              
               <Typography variant="body1" align="center" sx={{ mt: 2, mb: 2 }}>
                 Don't have an account?{" "}
                 <Link to={"/register"}>
@@ -118,12 +110,7 @@ const LoginPageComponent = () => {
                 disabled={isLoading}
                 sx={{ mt: 2 }}
               >
-                {isLoading && (
-                  <CircularProgress
-                    size={24}
-                    sx={{ mr: 1, color: "primary.main" }}
-                  />
-                )}
+                
                 Login
               </Button>
             </Box>

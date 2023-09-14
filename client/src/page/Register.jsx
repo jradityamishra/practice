@@ -1,29 +1,25 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CircularProgress } from "@mui/material";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Typography,
-} from "@mui/material";
-import { register, reset } from "../redux/authSlice";
+import { register, reset} from "../redux/authSlice";
 import Layout from "../component/Layout/Layout";
+import Spinner from "../component/Spinner";
+
 const Register = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   const [userData, setUserData] = useState({
-    firstname: "",
-    lastName: "",
+    fullname: "",
     email: "",
     password: "",
     confirmPassword: "",
     phoneNumber: "",
   });
-  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isLoading, isError, isSuccess, message } = useSelector(
@@ -31,123 +27,167 @@ const Register = () => {
   );
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prevUserData) => ({ ...prevUserData, [name]: value })); //whenever set function depends on current state use this
+    setUserData((prevUserData) => ({ ...prevUserData, [name]: value }));
   };
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     if (isError) toast.error(message);
     if (isSuccess || user) navigate("/");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (userData.password !== userData.confirmPassword) {
       setError("Passwords do not match.");
       return;
+    } else {
+      setError(null);
     }
-    try {
-      dispatch(register(userData));
-    } catch (err) {
-      console.log(err);
-      setError(err.message || "An error occurred. Please try again.");
+    const nameParts = userData?.fullname.split(" ");
+
+    if (nameParts.length >= 2) {
+      const [firstName, lastName] = nameParts;
+      delete userData.fullname;
+      delete userData.confirmPassword;
+      const formData = { ...userData, firstName, lastName };
+      try {
+        dispatch(register(formData));
+        
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message || "An error occurred. Please try again.");
+      }
     }
   };
 
   return (
     <Layout>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "80vh",
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Register
-        </Typography>
-        <form onSubmit={handleSubmit} style={{ width: "50%" }}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="firstname">First name</InputLabel>
-            <Input
-              id="firstname"
-              name="firstname"
-              type="text"
-              value={userData.firstname}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="lastName">Last name</InputLabel>
-            <Input
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={userData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={userData.email}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="phoneNumber">Phone Number</InputLabel>
-            <Input
-              id="phoneNumber"
-              name="phoneNumber"
-              type="text"
-              value={userData.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              value={userData.password}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={userData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </FormControl>
-          {error && <FormHelperText error>{error}</FormHelperText>}
+      {isLoading && <Spinner />}
+      <div className=" flex sm:mt-10 mt-20 justify-center mb-10">
+        <div className="max-w-md w-full mx-auto p-6   shadow-lg rounded-lg  ">
+          <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="fullname"
+              >
+                Name
+              </label>
+              <input
+                className="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                name="fullname"
+                onChange={handleChange}
+                value={userData.fullname}
+                type="text"
+                required
+                placeholder="Full Name"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                onChange={handleChange}
+                value={userData.email}
+                type="email"
+                required
+                placeholder="Email"
+                name="email"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="phoneNumber"
+              >
+                Phone Number
+              </label>
+              <input
+                className="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                onChange={handleChange}
+                value={userData.phoneNumber}
+                type="text"
+                required
+                placeholder="Phone Number"
+                name="phoneNumber"
+              />
+            </div>
+            <div className="mb-4 relative">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password
+              </label>
 
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
+              <input
+                className="relative appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                value={userData.password}
+                onChange={handleChange}
+                type={passwordVisible ? "text" : "password"}
+                required
+                placeholder="Password"
+                name="password"
+              />
+
+              <div
+                className="absolute bottom-2 right-2 cursor-pointer"
+                onClick={handlePasswordVisibility}
+              >
+                {passwordVisible ? (
+                  <RiEyeOffFill className="text-gray-500" />
+                ) : (
+                  <RiEyeFill className="text-gray-500" />
+                )}
+              </div>
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="confirmPassword"
+              >
+                Confirm Password
+              </label>
+
+              <input
+                className="relative appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                value={userData.confirmPassword}
+                onChange={handleChange}
+                type="password"
+                required
+                placeholder="Confirm Password"
+                name="confirmPassword"
+              />
+            </div>
+            {error && (
+              <div className="text-red-500 font-semibold mb-2">{error}</div>
+            )}
+
+            <button
+              className="bg-blue-500 mt-6 w-full hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
               type="submit"
-              sx={{ marginTop: "1rem" }}
+              disabled={isLoading}
             >
-              Register
-            </Button>
-          )}
-        </form>
-      </Box>
+              Sign up
+            </button>
+
+            <div className="text-sm mt-4 text-center">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-500 font-semibold">
+                Sign In
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
     </Layout>
   );
 };

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 export const verifyIfLoggedIn = (req, res, next) => {
   try {
     const token = req.cookies.access_token;
+    
     if (!token)
       return res.status(403).send("A token is required for authentication");
     try {

@@ -9,6 +9,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 router.use(verifyIfLoggedIn)
+
 //profile routes
 
 //admin routes

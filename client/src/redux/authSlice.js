@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-//get user from localStorage
-const user =
-  JSON.parse(localStorage.getItem("user")) ||
-  JSON.parse(sessionStorage.getItem("user"));
+
+const user = JSON.parse(sessionStorage.getItem("user"));
 const initialState = {
   user: user ? user : null,
   isError: false,
@@ -11,7 +9,6 @@ const initialState = {
   isSuccess: false,
   message: "",
 };
-//Register User
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -20,7 +17,10 @@ export const register = createAsyncThunk(
       const res = await axios.post("/api/users/register", userData);
 
       if (res.data) {
-        sessionStorage.setItem("user", JSON.stringify(res.data));
+        const userData = {
+          ...res.data,
+        };
+        sessionStorage.setItem("user", JSON.stringify(userData));
       }
       return res.data;
     } catch (err) {
@@ -38,10 +38,7 @@ export const register = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
 
-  const localUser = localStorage.getItem("user");
-  const sessionUser = sessionStorage.getItem("user");
-  if (localUser) localStorage.removeItem("user");
-  else if (sessionUser) sessionStorage.removeItem("user");
+  sessionStorage.removeItem("user");
 
   return null;
 });
@@ -49,17 +46,11 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
     const response = await axios.post("/api/users/login", user);
     if (response.status === 200) {
-      if (user.doNotLogout) {
-        const date = new Date();
-        date.setDate(date.getDate() + 7);
-        date.setSeconds(date.getSeconds() - 7);
-        const userData = {
-          ...response.data,
-          expDate: date.getTime(),
-        };
-        localStorage.setItem("user", JSON.stringify(userData));
-      } else sessionStorage.setItem("user", JSON.stringify(response.data));
-      return response.data;
+      const userData = {
+        ...response.data,
+      };
+      sessionStorage.setItem("user", JSON.stringify(userData));
+      return userData;
     }
   } catch (err) {
     var msg;
@@ -85,7 +76,6 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //to handle createAsyncThunk
     builder
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -106,7 +96,7 @@ export const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isError = true;
         state.isLoading = false;
-        state.message = action.payload; //err message
+        state.message = action.payload;
         state.user = null;
       })
       .addCase(logout.fulfilled, (state, action) => {
@@ -115,7 +105,7 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.isError = true;
         state.isLoading = false;
-        state.message = action.payload; //err message
+        state.message = action.payload;
         state.user = null;
       });
   },

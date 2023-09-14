@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-// import Logo from "../assets/namelogo-tr.png";
 import { Link } from "react-router-dom";
-
+import { logout, reset } from "../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
 const Header = () => {
   const [nav, setNav] = useState(false);
-  const [verified, setVerified] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
   const handleClick = () => setNav(!nav);
-
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className=" w-full h-[80px] mb-6 flex justify-between items-center pl-4 pr-12 text-white bg-gray-900">
       <Link to="/" duration={500}>
@@ -24,7 +25,7 @@ const Header = () => {
         </div>
       </Link>
 
-      {verified ? (
+      {user ? (
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
             <li className=" border-2 border-white px-1 rounded-md">
@@ -47,6 +48,16 @@ const Header = () => {
                 Guide
               </Link>
             </li>
+            <button
+                onClick={() => {
+                  dispatch(logout());
+                  dispatch(reset());
+                  navigate("/")
+                }}
+                className="border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
+              >
+                Sign Out
+              </button>
           </ul>
 
           {/* Hamburger */}
@@ -81,15 +92,23 @@ const Header = () => {
                 Guide
               </Link>
             </li>
+            <button
+                onClick={() => {
+                  dispatch(logout());
+                  dispatch(reset());
+                  navigate("/")
+                }}
+                className="border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
+              >
+                Sign Out
+              </button>
           </ul>
         </div>
       ) : (
         <div>
           <Link to="/login">
             <button
-              onClick={() => {
-                setVerified(true);
-              }}
+              
               className="p-2 border-2 border-white rounded-md hover:bg-red-500"
             >
               LOGIN

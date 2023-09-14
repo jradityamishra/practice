@@ -11,7 +11,7 @@ import faceReconitionRoute from './routes/faceRecongnitionRoute.js'
 //CONFIG ENV
 dotenv.config();
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 // REST OBJECT
 const app = express();
@@ -21,7 +21,7 @@ app.set('view engine','ejs');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // DATABASE CONNECTION
 connection();
