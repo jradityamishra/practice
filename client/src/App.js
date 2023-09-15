@@ -9,7 +9,9 @@ import Vote from "./page/Vote.jsx";
 import Guide from "./page/Guide.jsx";
 import Profile from "./page/Profile.jsx";
 import axios from "axios";
+import Results from "./page/Results.jsx";
 import ProtectedRoutes from "./component/ProtectedRoutes.js";
+import SuperAdmin from "./page/SuperAdmin.jsx";
 const App = () => {
   const refreshAccessToken = async () => {
     try {
@@ -33,8 +35,8 @@ const App = () => {
      
       <Route path="/profile" element={<Profile />} />
       <Route path="/guide" element={<Guide />} />
-
-      {/* <Route path="/verify" element={<VerifyPage />} /> */}
+      <Route path="/results" element={<Results />} />
+      <Route path="/super-admin-dashboard" element={<SuperAdmin />} />
 
       {/* user protected routes */}
       {/* <Route element={<ProtectedRoutes admin={false} superAdmin={false} />}> 
@@ -42,9 +44,9 @@ const App = () => {
       </Route>  */}
 
       {/* admin protected routes */}
-      <Route element={<ProtectedRoutes admin={true} superAdmin={false} />}>
-      <Route path="/vote" element={<Vote />} />
-      </Route>
+      {/* <Route element={<ProtectedRoutes admin={true} superAdmin={false} />}>
+
+      </Route> */}
 
       {/* superadmin protected routes */}
       {/* <Route element={<ProtectedRoutes superAdmin={true} admin={false} />}>

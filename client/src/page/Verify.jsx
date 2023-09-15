@@ -1,18 +1,18 @@
-import React, { useRef } from "react";
+import React from "react";
 import Layout from "../component/Layout/Layout";
 import facemap from "../assets/facemap.png";
 import { Button } from "@mui/material";
 const Verify = () => {
-  const videoRef = useRef(null);
+  // const videoRef = useRef(null);
 
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoRef.current.srcObject = stream;
-    } catch (error) {
-      console.error("Error accessing the camera:", error);
-    }
-  };
+  // const startCamera = async () => {
+  //   try {
+  //     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+  //     videoRef.current.srcObject = stream;
+  //   } catch (error) {
+  //     console.error("Error accessing the camera:", error);
+  //   }
+  // };
 
   return (
     <Layout>
