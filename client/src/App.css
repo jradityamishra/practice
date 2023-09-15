@@ -1,0 +1,10 @@
+.bg-mesh {
+  background-color: hsla(0, 0%, 100%, 1);
+  background-image: radial-gradient(
+      at 21% 100%,
+      hsla(210, 56%, 89%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 87% 77%, hsla(118, 61%, 88%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 18%, hsla(32, 100%, 89%, 1) 0px, transparent 50%);
+}

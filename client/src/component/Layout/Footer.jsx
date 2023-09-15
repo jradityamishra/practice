@@ -60,22 +60,22 @@ const Footer = () => {
 
               <div className="mt-5 flex flex-col items-start space-y-2">
                 <Link
-                  to=""
+                  to="/admin"
                   className="text-gray-600 transition-colors duration-300 hover:text-blue-500 hover:underline dark:text-gray-300 dark:hover:text-blue-400"
                 >
                   Zonal Admin
                 </Link>
                 <Link
-                  to="/super-admin-dashboard"
+                  to="//super-admin"
                   className="text-gray-600 transition-colors duration-300 hover:text-blue-500 hover:underline dark:text-gray-300 dark:hover:text-blue-400"
                 >
-                  Super Admin Dashboard
+                  Super Admin
                 </Link>
                 <Link
-                  to="/results"
+                  to="/guide"
                   className="text-gray-600 transition-colors duration-300 hover:text-blue-500 hover:underline dark:text-gray-300 dark:hover:text-blue-400"
                 >
-                  Results
+                  Guide
                 </Link>
               </div>
             </div>

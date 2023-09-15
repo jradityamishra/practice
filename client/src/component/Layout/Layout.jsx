@@ -1,16 +1,16 @@
 import React from "react";
 import Footer from "./Footer";
 import Header from "./Header";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../../App.css";
+
 const Layout = ({ children }) => {
   return (
     <>
-      <div>
+      <div className="bg-mesh">
         <Header />
-        <main>
-        {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
         <ToastContainer />
         <Footer />
       </div>
