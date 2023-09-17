@@ -8,16 +8,17 @@ import requests
 import sys
 
 #import cvzone
-photo = sys.argv[1]
-print(photo)
+adharNo = sys.argv[1]
+d = {'adharNo': adharNo}
+print("adhar"+" : "+adharNo)
 
-post = requests.post('http://localhost:8001/faceRecoginiton/datapostCv', photo)
-
+post = requests.post('http://localhost:8001/faceRecoginiton/datapostCv',data=d)
 data=post.json()
 print("Response from server:", data)
 img=data.get('photo')
+print(img)
 
-
+  
 
 
 
@@ -54,13 +55,15 @@ for path in PathList:
 
 '''
 
-    
+
 image_urls=[img]
 imgList = []  # List containing image data
 ID = []
 known_face_detected = False
+
+
 def posting():
-    obj={"result":known_face_detected}
+    obj={"result":known_face_detected,'adharNo':adharNo}
     post = requests.post('http://localhost:8001/faceRecoginiton/datapostresultCv',data=obj )   
     print("Post")
 
@@ -69,7 +72,8 @@ for url in image_urls:
     response = requests.get(url) #Getting images
     img_array = np.frombuffer(response.content, dtype=np.uint8) #Converting into numpy array
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR) #Changinh into image
-    
+    cv2.imshow("Fetched",img)
+    cv2.waitKey(1)
     imgList.append(img)
     ID.append(os.path.splitext(os.path.basename(url))[0])
 
@@ -82,22 +86,26 @@ def Encoding(imagesList):
     return encodeList
 
 print("Encoding Started..")
+
 encodeListKnown=Encoding(imgList)
 encodeListKnownIds=[encodeListKnown,ID]
 
 print("Encoding Ends")
 
-file=open("EncodeFile.p","wb")
+'''
+file=open("Efile.p","wb")
 pickle.dump(encodeListKnownIds,file)
 file.close()
 print("File Saved")
 
 
 print("Loading Encoded File...")
-file=open("EncodeFile.p","rb")
+file=open("Efile.p","rb")
 encodeListKnownId = pickle.load(file)
-encodeListKnown,ID=encodeListKnownId
-print("Encoded file Loaded..")
+'''
+
+encodeListKnown,ID=encodeListKnownIds
+#print("Encoded file Loaded..")
 initime=time.time()
 while True:
     
@@ -154,6 +162,7 @@ while True:
     cv2.waitKey(1)
     if known_face_detected or time_limit:
         time.sleep(5)
+        cap.release()
         cv2.destroyAllWindows()  # Close all OpenCV windows
          
         break

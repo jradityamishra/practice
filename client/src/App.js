@@ -12,6 +12,8 @@ import axios from "axios";
 import Results from "./page/Results.jsx";
 import ProtectedRoutes from "./component/ProtectedRoutes.js";
 import SuperAdmin from "./page/SuperAdmin.jsx";
+import Adhar from "./page/Adhar.js";
+import FaceRecognition from "./page/FaceRecognition.js";
 const App = () => {
   const refreshAccessToken = async () => {
     try {
@@ -31,6 +33,8 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
+      <Route path="/facereconition" element={<FaceRecognition />} />
+      <Route path="/adhar" element={<Adhar />} />
       <Route path="/verify" element={<VerifyPage />} />
       <Route path="/vote" element={<Vote />} />
       <Route path="/profile" element={<Profile />} />
