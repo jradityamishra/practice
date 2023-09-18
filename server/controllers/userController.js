@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import { hashPassword, comparePasswords } from "../utils/hashPassword.js";
 import { generateAuthToken } from "../utils/generateAuthToken.js";
-
+import jwt from "jsonwebtoken";
 export const getUsers = async (req, res, next) => {
   try {
     let searchQuery = req.query.search || "";
@@ -19,6 +19,25 @@ export const getUsers = async (req, res, next) => {
     return res.json({ users: users });
   } catch (err) {
     next(err);
+  }
+};
+export const refreshToken = (req, res, next) => {
+  try {
+    const user = req.user;
+    delete user.iat;
+    delete user.exp;
+    const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
+      expiresIn: "20m",
+    });
+    res.clearCookie("access_token");
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json({ message: "Access token refreshed successfully." });
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -83,7 +102,7 @@ export const registerUser = async (req, res, next) => {
           lastName: user.lastName,
           email: user.email,
           isAdmin: user.isAdmin,
-          isSuperAdmin:user.isSuperAdmin
+          isSuperAdmin: user.isSuperAdmin,
         });
     }
   } catch (err) {
@@ -93,7 +112,7 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   try {
-    const { email, password} = req.body;
+    const { email, password } = req.body;
     if (!email || !password)
       res.status(400).json({ error: "All input fields are required" });
 
@@ -114,7 +133,7 @@ export const loginUser = async (req, res, next) => {
             user.lastName,
             user.email,
             user.isAdmin,
-            user.isSuperAdmin,
+            user.isSuperAdmin
           ),
           cookieParams
         )
@@ -125,7 +144,7 @@ export const loginUser = async (req, res, next) => {
           lastName: user.lastName,
           email: user.email,
           isAdmin: user.isAdmin,
-          isSuperAdmin:user.isSuperAdmin,
+          isSuperAdmin: user.isSuperAdmin,
         });
     } else {
       res.status(401).json({ error: "Wrong Credentials" });

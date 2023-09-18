@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema(
     profilePicture: {
       type: String,
     },
+    hasVoted:
+    {
+      type:Boolean,
+      default:false,
+      required:true
+    }
   },
   { timestamps: true }
 );
