@@ -10,25 +10,13 @@ const Adhar = () => {
 
     //function call
     const adharverify=async(e)=>{
-        if(adhar.length<12 || adhar.length>12){
-            toast.error("please Enter Valid Adhar Number")
-        }else{
-            navigate('/facereconition')
-        }
-
-        e.preventDefault();
-        try{
-            const {data}=await axios.post('/faceRecoginiton/face',{adharNo:adhar})
-            console.log(data.message)
-            if (data.success) {
-                toast.success(data.message)
-               
-              } else {
-                toast.error(data.message);
-              }
-        }catch(error)
-        {console.log(error)
-        toast.error(error)}
+     e.preventDefault();
+     const data=localStorage.setItem('adharNo',adhar);
+     if(adhar.length>12 && adhar.length<12){
+     toast.error("please check Your Adhar Number")
+     }else{
+      navigate('/facereconition')
+     }
     }
 
   return (

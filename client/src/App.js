@@ -10,6 +10,7 @@ import Guide from "./page/Guide.jsx";
 import Profile from "./page/Profile.jsx";
 import axios from "axios";
 import Results from "./page/Results.jsx";
+import Email from "./page/Email.js";
 import ProtectedRoutes from "./component/ProtectedRoutes.js";
 import SuperAdmin from "./page/SuperAdmin.jsx";
 import Adhar from "./page/Adhar.js";
@@ -33,6 +34,7 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
+      <Route path="/email" element={<Email />} />
       <Route path="/facereconition" element={<FaceRecognition />} />
       <Route path="/adhar" element={<Adhar />} />
       <Route path="/verify" element={<VerifyPage />} />

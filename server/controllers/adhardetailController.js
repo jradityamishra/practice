@@ -61,17 +61,17 @@ export const adhar_detail_post_Controller = async (req, resp) => {
 
 export const get_detail_post_Controller = async (req, resp) => {
     try {
-        const adharNo = req.body
+        const {adharNo} = req.body
 
-        if(!adharNo){
-            resp.status(401).send("Please check Your Adhar Number")
-        }
-
-        const data = await adhardetailShema.findOne(adharNo)
+        // if(!adharNo){
+        //     resp.status(401).send("Please check Your Adhar Number")
+        // }
+        const detail=await adhardetailShema.findOne({adharNo:adharNo});
+        console.log(detail);
         //change image from buffer to asii string
         //`data:${user.userPhotoExtensionType};base64, ${Buffer.from(user.userPhoto.data).toString('base64')}
-        const photo=Buffer.from(data.photo).toString('ascii');
-        if(!data){
+        const photo=Buffer.from(detail.photo).toString('ascii');
+        if(!detail){
             console.log("not find data")
         }
         
@@ -79,11 +79,12 @@ export const get_detail_post_Controller = async (req, resp) => {
             success: true,
             message: resp.message,
             data:{
-                name:data.name,
-                fathersName:data.fathersName,
-                email:data.email,
-                mobileNo:data.mobileNo,
-                photo:photo
+                name:detail.name,
+                adharNo:detail.adharNo,
+                fathersName:detail.fathersName,
+               email:detail.email,
+               mobileNo:detail.mobileNo,
+               photo:photo
             }
         })
     }

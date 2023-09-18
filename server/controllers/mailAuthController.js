@@ -6,10 +6,11 @@ dotenv.config();
 
 export const mailconfirmCheckController=async(req,resp)=>{
    try{
-    const {email}= req.body;
-    const user = await adhardetailShema.findOne({ email: email });
-    console.log(user._id);
-    console.log(user.name);
+    const {adharNo}= req.body
+    console.log(adharNo)
+    const user = await adhardetailShema.findOne({adharNo:adharNo});
+   // console.log(user._id);
+    console.log(user);
 
     if(!user){
         return resp.status(401).json("User not found");
@@ -30,15 +31,12 @@ export const mailconfirmCheckController=async(req,resp)=>{
 }
 
 export const mailconfirmController=async(req,resp)=>{
-    const {email}=req.body
-    const user = await adhardetailShema.findOne({ email: email });
-        console.log(user.name,user._id)
-        const name=user.name;
-        const user_id=user._id;
-    try{
+    const {email,name,user_id}=req.body
+    console.log(email)
+    
+    try{ 
         
-        // const {name}=user.name;
-        // const {user_id}=user._id;
+       
         const transporter= nodemailer.createTransport(
             {
               host:"smtp.gmail.com",
@@ -64,7 +62,8 @@ export const mailconfirmController=async(req,resp)=>{
                 console.log("email has been send",
                 resp.status(200).send({
                     success:true,
-                    message:info.response
+                    message:info.response,
+                    info
                 }));
             }
         })
@@ -88,7 +87,7 @@ try{
     const id=req.query.id;
     const data=await adhardetailShema.updateOne({_id:id},
    {$set:{mailConfirm:true} })
-   //resp.send("mail confirm")
+   resp.send("mail confirm")
    resp.render('email-verified');
 }catch(error){
     console.log(error.message)

@@ -37,13 +37,13 @@ export const faceRecognitionController = async (req, resp) => {
       const pythonScriptPath = path.join(__dirname, '..', 'recognition', 'main.py');
       const py = spawn('python', [pythonScriptPath, value.adharNo])
 
-      py.stdout.on('data', (data) => {
-        console.log(`Python Script Output: ${data}`);
-    });
+    //   py.stdout.on('data', (data) => {
+    //     console.log(`Python Script Output: ${data}`);
+    // });
     
-    py.stderr.on('data', (data) => {
-        console.error(`Python Script Error: ${data}`);
-    });
+    // py.stderr.on('data', (data) => {
+    //     console.error(`Python Script Error: ${data}`);
+    // });
       //It ckeck  either python code fully run or not
       py.on('close', (code) => {
         if (code === 0) {
@@ -55,18 +55,19 @@ export const faceRecognitionController = async (req, resp) => {
           console.error(`Python script exited with code ${code}.`);
         }
       });
-     
+      
       const getdata = async () => {
         const data = await adhardetailShema.findOne(value);
-        console.log(data)
+        //const photo = Buffer.from(data.photo).toString('ascii');
+        //console.log(data)
         if (data) {
-          resp.status(200).send({
+         return resp.json({
             success: true,
             message: 'we get face recognition true',
             data
           })
         } else {
-          resp.status(401).send(
+         return resp.send(
             {
               sucess: false,
               message: "we can't find this user and not get user verify or not"
@@ -74,6 +75,7 @@ export const faceRecognitionController = async (req, resp) => {
           )
         }
       }
+      
     }
   } catch (error) {
     console.log(error)
