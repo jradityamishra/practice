@@ -98,7 +98,7 @@ const userData = {
   voted: false,
 };
 
-export default function Vote() {
+export default function ZoneAdminVote() {
   const [data, setData] = React.useState(userData);
   const handleVoteClick = () => {
     const updatedUserData = { ...data, voted: true };
@@ -116,7 +116,7 @@ export default function Vote() {
         <Grid container spacing={4} className="p-8">
           {candidatesDB.map((candidate, index) => (
             <Grid item xs={12} sm={6} key={index}>
-              <div className=" rounded-md bg-gray-200 shadow-lg">
+              <div className=" rounded-md bg-gray-800 shadow-lg">
                 <div className="md:flex px-4 leading-none max-w-4xl">
                   <div className="flex-none ">
                     <img
@@ -127,13 +127,13 @@ export default function Vote() {
                     <button
                       type="button"
                       onClick={handleVoteClick}
-                      className="border-2 border-gray-400 font-extrabold text-gray-800 hover:text-white rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
+                      className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE
                     </button>
                   </div>
 
-                  <div className="flex-col text-gray-800">
+                  <div className="flex-col text-gray-300">
                     <div className="">
                       <p className="p-4 text-2xl font-bold">{candidate.name}</p>
                     </div>

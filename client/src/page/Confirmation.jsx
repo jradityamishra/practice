@@ -2,7 +2,7 @@ import React from "react";
 
 const Confirmation = () => {
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center p-8">
       <div className="flex justify-center font-semibold text-3xl mt-8">
         Your vote has been recorded successfully.
       </div>
