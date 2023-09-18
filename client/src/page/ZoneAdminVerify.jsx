@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Layout from "../component/Layout/Layout";
 import facemap from "../assets/facemap.png";
-import { Button, TextField, Box, Alert } from "@mui/material";
+import { Button, TextField, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 
-const Verify = () => {
+const ZoneAdminVerify = () => {
   const nav = useNavigate();
   const userData = {
     //to be fetched for user's data base
@@ -32,9 +32,8 @@ const Verify = () => {
       parseInt(formData.aadhaarId) === parseInt(userData.aadhaarId) &&
       parseInt(formData.voterId) === parseInt(userData.voterId)
     ) {
-      nav("/vote");
-    } else {
-      return <Alert>muihi</Alert>;
+      console.log("Aadhar Voter correct");
+      nav("/admin/vote");
     }
   };
 
@@ -87,4 +86,4 @@ const Verify = () => {
   );
 };
 
-export default Verify;
+export default ZoneAdminVerify;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./page/HomePage.jsx";
 import LoginPage from "./page/Login.jsx";
@@ -12,6 +11,10 @@ import axios from "axios";
 import Results from "./page/Results.jsx";
 import ProtectedRoutes from "./component/ProtectedRoutes.js";
 import SuperAdmin from "./page/SuperAdmin.jsx";
+import ZoneAdminHome from "./page/ZoneAdminHome.jsx";
+import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
+import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
+
 const App = () => {
   const refreshAccessToken = async () => {
     try {
@@ -21,8 +24,8 @@ const App = () => {
       console.error(error);
     }
   };
- 
-  const refreshInterval = 60*1000*19;
+
+  const refreshInterval = 60 * 1000 * 19;
 
   setInterval(refreshAccessToken, refreshInterval);
 
@@ -31,27 +34,31 @@ const App = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
-      <Route path="/verify" element={<VerifyPage />} />
-      <Route path="/vote" element={<Vote />} />
-      <Route path="/profile" element={<Profile />} />
       <Route path="/guide" element={<Guide />} />
-      <Route path="/results" element={<Results />} />
-      <Route path="/super-admin-dashboard" element={<SuperAdmin />} />
 
       {/* user protected routes */}
-      {/* <Route element={<ProtectedRoutes admin={false} superAdmin={false} />}> 
-      
-      </Route>  */}
+      <Route element={<ProtectedRoutes admin={false} superAdmin={false} />}>
+        <Route path="/results" element={<Results />} />
+        <Route path="/verify" element={<VerifyPage />} />
+        <Route path="/vote" element={<Vote />} />
+        <Route path="/profile" element={<Profile />} />
+      </Route>
 
       {/* admin protected routes */}
-      {/* <Route element={<ProtectedRoutes admin={true} superAdmin={false} />}>
-
-      </Route> */}
+      <Route element={<ProtectedRoutes admin={true} superAdmin={false} />}>
+        <Route path="/admin" element={<ZoneAdminHome />} />
+        <Route path="/admin/verify" element={<ZoneAdminVerify />} />
+        <Route path="/admin/vote" element={<ZoneAdminVote />} />
+        <Route path="/results" element={<Results />} />
+        <Route path="/profile" element={<Profile />} />
+      </Route>
 
       {/* superadmin protected routes */}
-      {/* <Route element={<ProtectedRoutes superAdmin={true} admin={false} />}>
-      
-      </Route> */}
+      <Route element={<ProtectedRoutes superAdmin={true} admin={false} />}>
+        <Route path="//super-admin" element={<SuperAdmin />} />
+        <Route path="/results" element={<Results />} />
+        <Route path="/profile" element={<Profile />} />
+      </Route>
     </Routes>
   );
 };
