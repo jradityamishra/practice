@@ -14,21 +14,31 @@ import SuperAdmin from "./page/SuperAdmin.jsx";
 import ZoneAdminHome from "./page/ZoneAdminHome.jsx";
 import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
 import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
-
+import { useEffect } from "react";
 const App = () => {
-  const refreshAccessToken = async () => {
-    try {
-      const response = await axios.get("/api/users/refresh-token");
-      if (response.status === 403 || response.status === 401) return;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+//   const refreshAccessToken = async () => {
+//     try {
+//       const response = await axios.get("/api/users/refresh-token");
+//       if (response.status === 403 || response.status === 401) return;
+//       if (response.data) console.log(response.data.message + " hi ");
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
 
-  const refreshInterval = (6 * 60 * 60 * 1000) + (59 * 60 * 1000);
+//   const refreshInterval = 19 * 60 * 1000 + 50 * 1000;
 
+//   useEffect(() => {
+//     if (sessionStorage.getItem("user")) {
+//       refreshAccessToken();
 
-  setInterval(refreshAccessToken, refreshInterval);
+//       const intervalId = setInterval(refreshAccessToken, refreshInterval);
+
+//       return () => {
+//         clearInterval(intervalId);
+//       };
+//     }
+//   }, []);
 
   return (
     <Routes>

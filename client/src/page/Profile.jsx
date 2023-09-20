@@ -10,6 +10,7 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState(null);
+  const [submit, setSubmit] = useState(false);
   const [changed, setChanged] = useState(false);
   useEffect(() => {
     const getProfile = async () => {
@@ -63,7 +64,6 @@ const Profile = () => {
     }
   };
 
-  
   const handleSetAsProfilePicture = () => {
     if (!image) {
       return;
@@ -112,7 +112,7 @@ const Profile = () => {
   return (
     <Layout>
       <div className="flex justify-center py-8">
-        <div className="bg-white max-w-2xl overflow-hidden sm:rounded-lg w-3/4 md:w-1/2 pl-8 shadow-lg shadow-gray-400">
+        <div className="bg-white max-w-2xl overflow-hidden sm:rounded-lg w-3/4 md:w-1/2 pl-8 shadow-lg shadow-gray-400 pb-3">
           <div className="px-4 py-4 sm:px-6 flex justify-center items-center relative">
             {user.profilePicture === "none" ? (
               image ? (
@@ -213,12 +213,17 @@ const Profile = () => {
       </div>
       {image && (
         <div className="flex justify-center mt-4">
-          <button
-            onClick={handleSetAsProfilePicture}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          >
-            Set as Profile Picture
-          </button>
+        <button
+  onClick={() => {
+    setSubmit(true);
+    handleSetAsProfilePicture();
+  }}
+  disabled={submit}
+  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+>
+  Set as Profile Picture
+</button>
+
         </div>
       )}
     </Layout>

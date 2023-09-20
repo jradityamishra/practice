@@ -27,7 +27,7 @@ export const refreshToken = (req, res, next) => {
     delete user.iat;
     delete user.exp;
     const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
-      expiresIn: "7h",
+      expiresIn: "1d",
     });
     res.clearCookie("access_token");
     res.cookie("access_token", accessToken, {
