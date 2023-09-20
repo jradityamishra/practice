@@ -2,7 +2,7 @@
 
 ### An online voting system that ensures secure and transparent elections using blockchain technology, machine learning, and cloud computing.
 
-![]()
+![](https://github.com/jradityamishra/practice/blob/main/client/public/preview.png)
 
 ## 🔗 Links
 
@@ -16,9 +16,9 @@ The app is live at -
 - **Security :** Blockchain system with zk rollups for recording and storing each vote securely and immutably.
 - **User Authentication :** Provide user registration and login functionalities with JWT and session cookies.
 
-### ♾️Process Flowchart
+## ♾️Process Flowchart
 
-![]()
+![](https://github.com/jradityamishra/practice/blob/main/client/public/Final%20flowchart.jpg)
 
 ## 👥 Use cases
 
