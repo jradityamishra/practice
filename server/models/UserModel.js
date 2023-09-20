@@ -33,8 +33,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+
     profilePicture: {
       type: String,
+      required:true,
+      default:'none',
     },
     hasVoted:
     {

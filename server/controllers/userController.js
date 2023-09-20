@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+import User from "../models/UserModel.js";
 import { hashPassword, comparePasswords } from "../utils/hashPassword.js";
 import { generateAuthToken } from "../utils/generateAuthToken.js";
 import jwt from "jsonwebtoken";
@@ -27,7 +27,7 @@ export const refreshToken = (req, res, next) => {
     delete user.iat;
     delete user.exp;
     const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
-      expiresIn: "20m",
+      expiresIn: "7h",
     });
     res.clearCookie("access_token");
     res.cookie("access_token", accessToken, {
@@ -109,7 +109,36 @@ export const registerUser = async (req, res, next) => {
     next(err);
   }
 };
+export const getUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("-createdAt -updatedAt -password")
+      .orFail();
+    return res.send(user);
+  } catch (err) {
+    if (err.name === "DocumentNotFoundError") {
+      res.status(400).json({ error: "Account does not exist, please sign up" });
+    } else {
+      next(err);
+    }
+  }
+};
+export const uploadImage = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id).orFail();
+    user.profilePicture=req.body.url;
 
+    await user.save();
+    res.status(201).send("Profile picture updated");
+  } catch (err) {
+    if (err.name === "DocumentNotFoundError") {
+      res.status(400).json({ error: "Account does not exist, please sign up" });
+    } else {
+      next(err);
+    }
+  }
+};
 export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;

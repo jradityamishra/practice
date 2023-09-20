@@ -25,7 +25,8 @@ const App = () => {
     }
   };
 
-  const refreshInterval = 60 * 1000 * 19;
+  const refreshInterval = (6 * 60 * 60 * 1000) + (59 * 60 * 1000);
+
 
   setInterval(refreshAccessToken, refreshInterval);
 

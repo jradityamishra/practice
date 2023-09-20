@@ -28,7 +28,8 @@ const Header = () => {
       {user ? (
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
-            <li className="border border-white hover:bg-amber-200 hover:text-black px-1 rounded-md">
+          
+            <li className="border border-white hover:bg-amber-200 hover:text-black px-4 py-2 rounded-md">
               {user.isAdmin ? (
                 <Link to="/admin">Dashboard</Link>
               ) : user.isSuperAdmin ? (
