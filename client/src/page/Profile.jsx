@@ -119,7 +119,7 @@ const Profile = () => {
                 <div className="relative">
                   <img
                     src={URL.createObjectURL(image)}
-                    alt={`uploaded profile picture`}
+                    alt={`uploaded profile`}
                     className="object-cover rounded-full w-48 h-48"
                   />
                   <label
@@ -158,7 +158,7 @@ const Profile = () => {
               <img
                 src={user.profilePicture}
                 className="w-48 h-48 mx-auto object-cover border-2 border-gray-400 rounded-full mb-4"
-                alt="profile picture"
+                alt="profile"
               />
             )}
           </div>

@@ -66,7 +66,7 @@ const App = () => {
 
       {/* superadmin protected routes */}
       <Route element={<ProtectedRoutes superAdmin={true} admin={false} />}>
-        <Route path="//super-admin" element={<SuperAdmin />} />
+        <Route path="/super-admin" element={<SuperAdmin />} />
         <Route path="/results" element={<Results />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
