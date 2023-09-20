@@ -79,7 +79,7 @@ const Verify = () => {
             </div>
           </Box>
         </div>
-        <div className="shadow-sm shadow-blue-300">
+        <div className="shadow-lg shadow-blue-300 border-2 border-blue-900 h-full flex justify-center rounded-md">
           <img className="" src={facemap} alt="" />
         </div>
       </div>
