@@ -25,8 +25,7 @@ const App = () => {
     }
   };
 
-  const refreshInterval = (6 * 60 * 60 * 1000) + (59 * 60 * 1000);
-
+  const refreshInterval = 6 * 60 * 60 * 1000 + 59 * 60 * 1000;
 
   setInterval(refreshAccessToken, refreshInterval);
 
@@ -56,7 +55,7 @@ const App = () => {
 
       {/* superadmin protected routes */}
       <Route element={<ProtectedRoutes superAdmin={true} admin={false} />}>
-        <Route path="//super-admin" element={<SuperAdmin />} />
+        <Route path="/super-admin" element={<SuperAdmin />} />
         <Route path="/results" element={<Results />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
