@@ -46,7 +46,7 @@ const Email = () => {
     }
     if(data.data.user.mailConfirm==true){
       localStorage.removeItem('adharData')
-      navigate('/')
+      navigate('/vote')
     }
     
   }

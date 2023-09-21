@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Layout from '../component/Layout/Layout';
 
 
 const FaceRecognition = () => {
@@ -55,21 +56,7 @@ const FaceRecognition = () => {
     }
   } 
 
-  //check facerecogition true or not
 
-  // const confirmface = async () => {
-  //   const facedata = await localStorage.getItem('data');
-  //   const adharDetail = JSON.parse(facedata);
-  //   console.log(adharDetail)
-  //   if (adharDetail?.faceReconition == true) {
-  //     toast.success("Face Reconition completed")
-  //     localStorage.removeItem('data')
-  //     navigate('/email')
-  //   } else {
-  //     toast.error("Face Not Recognition")
-  //     // navigate('/adhar');
-  //   }
-  // }
   useEffect(() => {
     const adharNo = localStorage.getItem('adharNo')
     setFacedata(adharNo)
@@ -82,13 +69,15 @@ const FaceRecognition = () => {
     }
   },[hasVerified])
   return (
-    <div className='w-11/12 flex justify-between align-center m-5'>
+   <Layout>
+     <div className='w-11/12 flex justify-between align-center m-5'>
       <div className=''>
         <img src={adhar.photo} alt="" />
         <h1>{adhar.name}</h1>
       </div>
       <div></div>
     </div>
+   </Layout>
   )
 }
 

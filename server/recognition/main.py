@@ -23,8 +23,13 @@ print(img)
 
 
 cap=cv2.VideoCapture(0,cv2.CAP_DSHOW)
-cap.set(3,640) #Width
-cap.set(4,480) #Height
+cap.set(3,425) #Width
+cap.set(4,320) #Height
+
+#Added
+cv2.namedWindow("Display",cv2.WINDOW_NORMAL)
+#cv2.setWindowProperty("Display",cv2.WND_PROP_TOPMOST)
+cv2.moveWindow("Display",600,150)
 
 # ima=response.content
 # cv2.imshow("Imsges",ima)
@@ -72,8 +77,8 @@ for url in image_urls:
     response = requests.get(url) #Getting images
     img_array = np.frombuffer(response.content, dtype=np.uint8) #Converting into numpy array
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR) #Changinh into image
-    cv2.imshow("Fetched",img)
-    cv2.waitKey(1)
+    #cv2.imshow("Fetched",img)
+    #cv2.waitKey(1)
     imgList.append(img)
     ID.append(os.path.splitext(os.path.basename(url))[0])
 
@@ -147,13 +152,21 @@ while True:
             #bbox = 70 + x1, 154 + y1,x2 - x1,  y2 - y1
             #BackgroundImage=cvzone.cornerRect(BackgroundImage,bbox,rt=0)
 
+
         fintime=time.time()
         if (fintime - initime >= 40):
             time_limit=True
             print("Time Limit Exceeded")
             break
    # post = requests.get('http://localhost:8001/faceRecoginiton/datapostresultCv',known_face_detected )
-   
+    
+    if len(faceCurrFrame)>0:
+        face_locations=face_recognition.face_locations(img)
+        for face_location in face_locations:
+            (top, right , bottom, left)=face_location
+            cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),2)
+
+    
     cv2.imshow("Display", img)
     
     #cv2.imshow("WebCam",img)

@@ -3,19 +3,25 @@ import Layout from '../component/Layout/Layout'
 import { toast } from "react-toastify";
 import axios from 'axios';
 import {useNavigate} from "react-router-dom"
+import Spinner from '../component/Spinner';
 const Adhar = () => {
     const navigate=useNavigate();
     const [adhar,setAdhar]=useState("");
+    const [isLoading,setIsLoading]=useState(false);
+   
     console.log(adhar);
 
     //function call
     const adharverify=async(e)=>{
-     e.preventDefault();
+      e.preventDefault();
+      setIsLoading(true);
      const data=localStorage.setItem('adharNo',adhar);
      if(adhar.length>12 && adhar.length<12){
      toast.error("please check Your Adhar Number")
      }else{
+      
       navigate('/facereconition')
+      setIsLoading(false);
      }
     }
 
@@ -24,7 +30,7 @@ const Adhar = () => {
    
     <Layout>
     <div class="flex justify-center">
-    <div class="relative mb-3" data-te-input-wrapper-init>
+    <div class="relative mb-3" data-te-input-wrapper-init >
   <input
     type="tel"
     class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
@@ -39,8 +45,8 @@ const Adhar = () => {
   </label>
   
   </div>
-  <button onClick={adharverify} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-  submit
+  <button onClick={adharverify}  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+  {!isLoading?'submit':<Spinner/>}
 </button>
 </div>
     </Layout>

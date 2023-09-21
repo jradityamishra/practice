@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom'
 import Layout from "../component/Layout/Layout";
 import HeroImg from "../assets/vote.png";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
+  const [isadmin,setIsadmin]=useState(false);
+  const [issuperadmin,setIssuperadmin]=useState(false);
+  const [isuser,setIsuser]=useState(false);
+  
+  const navigate=useNavigate();
+
+  const { user} = useSelector(
+    (state) => state.auth
+  );
+
+//function call from button
+
+const handleClick=()=>{
+  if((isadmin==true||(isuser==true))){
+    navigate('/verify')
+  }else{
+    navigate('/super-admin')
+  }
+}
+
+//using useEffct set state
+  useEffect(()=>{
+   const setValue=()=>{
+    if(user.isAdmin==true||user.isSuperAdmin==true){
+      setIsadmin(user.isAdmin);
+      setIssuperadmin(user.isSuperAdmin);
+    }else{
+      setIsuser(true);
+    }
+   }
+   setValue()
+  },[])
+
   return (
     <Layout>
       <div className="bg-gradient-to-b">
@@ -29,13 +63,13 @@ const HomePage = () => {
                 </p>
 
                 <div className="mt-10 sm:flex sm:items-center sm:space-x-8">
-                  <Link
-                    to="/verify"
+                  <button
+                    onClick={handleClick}
                     className="inline-flex items-center justify-center px-6 py-4 text-base font-semibold text-white transition-all duration-200 bg-orange-500 hover:bg-orange-600 focus:bg-orange-600"
                     role="button"
                   >
                     Get Started
-                  </Link>
+                  </button>
                 </div>
               </div>
 
