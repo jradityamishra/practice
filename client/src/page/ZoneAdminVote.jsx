@@ -1,12 +1,7 @@
-import {useState } from "react";
+import * as React from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Confirmation from "./Confirmation";
-import abi from "./voting.json";
-// import { ethers } from "ethers";
-import { useWeb3 } from './Web3Context';
-// import contractInstance from "./contractInstance";
-
 
 const candidatesDB = [
   {
@@ -95,7 +90,7 @@ const userData = {
   fullName: "Mickael Poulaz",
   username: "noobmaster69",
   imageSrc:
-  "https://static.vecteezy.com/ti/vetor-gratis/p1/2519144-avatar-de-midia-social-gratis-vetor.jpg",
+    "https://static.vecteezy.com/ti/vetor-gratis/p1/2519144-avatar-de-midia-social-gratis-vetor.jpg",
   emailAddress: "m.poul@example.com",
   contact: 9876543210,
   address: "Rajendra Nagar, Kota",
@@ -103,51 +98,12 @@ const userData = {
   voted: false,
 };
 
-export default function Vote() {
-  const web3 = useWeb3();
-  const [loading, setLoading] = useState(false);
-
-  const [data, setData] = useState(userData);
-  const [state, setState] = useState({
-    provider: null,
-    signer: null,
-    contract: null,
-  });
-
-  const connectWallet=async()=>{
-    try {
-      setLoading(true);
-
-      if (window.ethereum) {
-        await window.ethereum.send('eth_requestAccounts');
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-
-        if (accounts && accounts.length > 0) {
-          web3.setAccount(accounts[0]);
-        }
-      }
-    } catch (error) {
-      console.error('MetaMask connection error:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    connectToMetaMask();
-  }, []);
-
-
-  const handleVoteClick = async (zoneName,index) => {
-    try {
-      const transaction = await contract.vote(zoneName,index);
-      await transaction.wait();
-      alert(`Voted Successfully from ${signerAddress}`);
-      setState({ ...state, contract });
-    } catch (error) {
-      console.log(error);
-    }
+export default function ZoneAdminVote() {
+  const [data, setData] = React.useState(userData);
+  const handleVoteClick = () => {
     const updatedUserData = { ...data, voted: true };
     setData(updatedUserData);
+    console.log(data);
   };
 
   return (
@@ -160,7 +116,7 @@ export default function Vote() {
         <Grid container spacing={4} className="p-8">
           {candidatesDB.map((candidate, index) => (
             <Grid item xs={12} sm={6} key={index}>
-              <div className=" rounded-md bg-gray-200 shadow-lg">
+              <div className=" rounded-md bg-gray-800 shadow-lg">
                 <div className="md:flex px-4 leading-none max-w-4xl">
                   <div className="flex-none ">
                     <img
@@ -170,19 +126,14 @@ export default function Vote() {
                     />{" "}
                     <button
                       type="button"
-<<<<<<< HEAD
-                      onClick={handleVoteClick(zoneName,index)}
-                      className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
-=======
                       onClick={handleVoteClick}
-                      className="border-2 border-gray-400 font-extrabold text-gray-800 hover:text-white rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
->>>>>>> e37dacd18cc89d0b40d494e347385024f5a04f3b
+                      className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE
                     </button>
                   </div>
 
-                  <div className="flex-col text-gray-800">
+                  <div className="flex-col text-gray-300">
                     <div className="">
                       <p className="p-4 text-2xl font-bold">{candidate.name}</p>
                     </div>

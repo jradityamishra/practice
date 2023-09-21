@@ -106,7 +106,7 @@ export default function Vote() {
       <Grid container spacing={4} className="p-8">
         {sortedResults.map((candidate, index) => (
           <Grid item xs={12} sm={6} key={index}>
-            <div className=" rounded-md bg-gray-800 shadow-lg">
+            <div className=" rounded-md bg-blue-100 shadow-lg">
               <div className="md:flex px-4 leading-none max-w-4xl">
                 <div className="flex-none ">
                   <img
@@ -116,7 +116,7 @@ export default function Vote() {
                   />{" "}
                 </div>
 
-                <div className="flex-col text-gray-300">
+                <div className="flex-col text-gray-800 pb-4">
                   <div className="">
                     <p className="p-4 text-2xl font-bold">{candidate.name}</p>
                   </div>

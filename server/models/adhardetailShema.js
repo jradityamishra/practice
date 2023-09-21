@@ -30,6 +30,10 @@ const adhardetailShema=new mongoose.Schema({
     mailConfirm:{
         type :Boolean ,
          default:false
+    },
+    faceReconition:{
+        type :Boolean ,
+         default:false
     }
 },{timestamps:true})
 export default mongoose.model("adhar",adhardetailShema)

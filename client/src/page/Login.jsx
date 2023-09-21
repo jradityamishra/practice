@@ -4,25 +4,22 @@ import {
   Container,
   Typography,
   Button,
-  
   TextField,
-  
   Box,
   Paper,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import {login, reset } from "../redux/authSlice";
+import { login, reset } from "../redux/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../component/Layout/Layout";
 import Spinner from "../component/Spinner";
 
-const LoginPageComponent = () => { 
+const LoginPageComponent = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    
   });
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoading, isError, isSuccess, message } = useSelector(
@@ -33,7 +30,7 @@ const LoginPageComponent = () => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -41,7 +38,6 @@ const LoginPageComponent = () => {
     event.preventDefault();
     try {
       dispatch(login(formData));
-     
     } catch (err) {
       toast.error(err.message || "An error occurred. Please try again.");
     }
@@ -50,16 +46,14 @@ const LoginPageComponent = () => {
   useEffect(() => {
     if (isError) toast.error(message);
     if (isSuccess || (user && !user.isAdmin)) navigate("/");
-    else if (isSuccess || (user && user.isAdmin))
-      navigate("/admin");
-    else if (isSuccess || (user && user.isSuperAdmin))
-      navigate("/superadmin");
+    else if (isSuccess || (user && user.isAdmin)) navigate("/admin");
+    else if (isSuccess || (user && user.isSuperAdmin)) navigate("/super-admin");
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
 
   return (
     <Layout>
-    {isLoading && <Spinner />}
+      {isLoading && <Spinner />}
       <Box
         sx={{
           display: "flex",
@@ -71,7 +65,7 @@ const LoginPageComponent = () => {
       >
         <Container maxWidth="xs">
           <Paper sx={{ p: 2, mt: 5 }}>
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
             <Box component="form" onSubmit={handleSubmit}>
               <TextField
                 id="email"
@@ -96,7 +90,7 @@ const LoginPageComponent = () => {
                 margin="normal"
                 type="password"
               />
-              
+
               <Typography variant="body1" align="center" sx={{ mt: 2, mb: 2 }}>
                 Don't have an account?{" "}
                 <Link to={"/register"}>
@@ -110,7 +104,6 @@ const LoginPageComponent = () => {
                 disabled={isLoading}
                 sx={{ mt: 2 }}
               >
-                
                 Login
               </Button>
             </Box>

@@ -3,6 +3,7 @@ import colors from "colors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import connection from "./database/db.js";
+import cors from 'cors'
 import cookieParser from "cookie-parser";
 import adhardetailRoutes from "./routes/adhardetailRoute.js"
 import apiRoutes from './routes/apiRoutes.js'
@@ -18,6 +19,7 @@ const app = express();
 
 // MIDDLEWARES
 app.set('view engine','ejs');
+app.use(cors());
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(express.json());
