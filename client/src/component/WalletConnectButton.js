@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connectWallet, selectConnected, selectError } from "./walletSlice"; 
-import { toast } from "react-toastify";
+import { connectWallet, selectConnected, selectError } from "../redux/walletSlice"; 
+
 const WalletConnectButton = () => {
   const dispatch = useDispatch();
   const connected = useSelector(selectConnected);
