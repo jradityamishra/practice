@@ -4,10 +4,11 @@ import Grid from "@mui/material/Grid";
 import Confirmation from "./Confirmation";
 import abi from "./voting.json";
 // import { ethers } from "ethers";
-import { useWeb3 } from './Web3Context';
+// import { useWeb3 } from './Web3Context';
 // import contractInstance from "./contractInstance";
 
 
+const Vote = () => {
 const candidatesDB = [
   {
     id: 1,
@@ -102,17 +103,6 @@ const userData = {
   zone: 40,
   voted: false,
 };
-
-export default function Vote() {
-  const web3 = useWeb3();
-  const [loading, setLoading] = useState(false);
-
-  const [data, setData] = useState(userData);
-  const [state, setState] = useState({
-    provider: null,
-    signer: null,
-    contract: null,
-  });
 
   const connectWallet=async()=>{
     try {
@@ -210,3 +200,4 @@ export default function Vote() {
     </Layout>
   );
 }
+export default Vote;
