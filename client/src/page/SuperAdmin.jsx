@@ -76,15 +76,28 @@ const SuperAdmin = () => {
     web3:null,
     contract:null
   })
+
+  const init =async()=>{
+    try{
+          const web3=new Web3(window.ethereum);
+          await window.ethereum.request({method:'eth_requestAccounts'});
+          const contract =new web3.eth.Contract(
+                ABI,
+                "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
+          );
+          setState({web3:web3,contract:contract})
+          //console.log(contract);
+          setConnected(false);
+    }
+    catch(error){
+      console.log(error);
+          alert('Please Install Metamask');
+    }
+    
+}
+
   const CreateVotingBooth=async()=>{
     try{
-      const web3=new Web3(window.ethereum);
-      await window.ethereum.request({method:'eth_requestAccounts'});
-      const contract =new web3.eth.Contract(
-            ABI,
-            "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
-      );
-
       const candidateNames = ['Amaan', 'Satyam', 'Sahil'];
       const durationInDays = 1;
       const superAdmin="0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
@@ -104,7 +117,6 @@ const SuperAdmin = () => {
         // Handle errors here
         console.error('Error:', error);
       });
-      setState({web3:web3,contract:contract})
       //console.log(contract);
       }
       catch(error){

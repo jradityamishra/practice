@@ -137,14 +137,9 @@ export default function Vote() {
   }, []);
 
 
-  const handleVoteClick = async (index) => {
+  const handleVoteClick = async (zoneName,index) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contractAddress = '0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428';
-      const signer = provider.getSigner();
-       const contract = new ethers.Contract(contractAddress, abi.abi, signer,["BJP","TMC","CPIM"],20);
-
-      const transaction = await contract.vote(index);
+      const transaction = await contract.vote(zoneName,index);
       await transaction.wait();
       alert(`Voted Successfully from ${signerAddress}`);
       setState({ ...state, contract });
