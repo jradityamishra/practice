@@ -59,7 +59,7 @@ export const initWallet = () => async (dispatch) => {
 
 export const connectWallet = () => async (dispatch, getState) => {
   try {
-    if (window.ethereum) {
+    if (window.ethereum !==undefined) {
       await window.ethereum.send('eth_requestAccounts');
       const accounts = await window.ethereum.request({ method: 'eth_accounts' });
       const state = getState(); 

@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
-import Web3 from "web3";
+// import Web3 from "web3";
 import ABI from "./voting.json";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initWallet,
-  selectConnected,
-  selectError,
+  setConnected,
+  setError,
 } from "../redux/walletSlice.js";
-import WalletConnectButton from "./WalletConnectButton";
+import WalletConnectButton from "../component/WalletConnectButton";
 
 const SuperAdmin = () => {
   const [selectedZone, setSelectedZone] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
   const dispatch = useDispatch();
-  const connected = useSelector(selectConnected);
-  const error = useSelector(selectError);
+  const connected = useSelector(setConnected);
+  const error = useSelector(setError);
 
   const contract = useSelector((state) => state.wallet.contract);
 
@@ -102,12 +102,16 @@ const SuperAdmin = () => {
     },
   ];
 
+  // const contract = useSelector(selectContract);
+
   const CreateVotingBooth = async () => {
     try {
+
       const candidateNames = ["Amaan", "Satyam", "Sahil"];
       const durationInDays = 1;
+      const votingStart=new Date.now();
       const superAdmin = "0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
-
+      const zoneName="Ruby";
       contract.methods
         .createBooth(zoneName, candidateNames, votingStart, durationInDays)
         .send({ from: superAdmin })
