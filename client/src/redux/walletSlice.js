@@ -79,4 +79,8 @@ export const connectWallet = () => async (dispatch, getState) => {
   }
 };
 
+export const selectConnected = (state) => state.wallet.connected;
+export const selectError = (state) => state.wallet.error;
+
+
 export default walletSlice.reducer;

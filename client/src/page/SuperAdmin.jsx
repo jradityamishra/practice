@@ -10,8 +10,8 @@ import {
  
   selectConnected,
   selectError,
-} from "./walletSlice";
-import WalletConnectButton from "./WalletConnectButton";
+} from "../redux/walletSlice";
+import WalletConnectButton from "../redux/walletSlice";
 
 const SuperAdmin = () => {
   const [selectedZone, setSelectedZone] = useState("");
