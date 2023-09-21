@@ -1,7 +1,12 @@
-import * as React from "react";
+import {useState } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Confirmation from "./Confirmation";
+import abi from "./voting.json";
+// import { ethers } from "ethers";
+import { useWeb3 } from './Web3Context';
+// import contractInstance from "./contractInstance";
+
 
 const candidatesDB = [
   {
@@ -90,7 +95,7 @@ const userData = {
   fullName: "Mickael Poulaz",
   username: "noobmaster69",
   imageSrc:
-    "https://static.vecteezy.com/ti/vetor-gratis/p1/2519144-avatar-de-midia-social-gratis-vetor.jpg",
+  "https://static.vecteezy.com/ti/vetor-gratis/p1/2519144-avatar-de-midia-social-gratis-vetor.jpg",
   emailAddress: "m.poul@example.com",
   contact: 9876543210,
   address: "Rajendra Nagar, Kota",
@@ -99,11 +104,55 @@ const userData = {
 };
 
 export default function Vote() {
-  const [data, setData] = React.useState(userData);
-  const handleVoteClick = () => {
+  const web3 = useWeb3();
+  const [loading, setLoading] = useState(false);
+
+  const [data, setData] = useState(userData);
+  const [state, setState] = useState({
+    provider: null,
+    signer: null,
+    contract: null,
+  });
+
+  const connectWallet=async()=>{
+    try {
+      setLoading(true);
+
+      if (window.ethereum) {
+        await window.ethereum.send('eth_requestAccounts');
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+        if (accounts && accounts.length > 0) {
+          web3.setAccount(accounts[0]);
+        }
+      }
+    } catch (error) {
+      console.error('MetaMask connection error:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    connectToMetaMask();
+  }, []);
+
+
+  const handleVoteClick = async (index) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contractAddress = '0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428';
+      const signer = provider.getSigner();
+       const contract = new ethers.Contract(contractAddress, abi.abi, signer,["BJP","TMC","CPIM"],20);
+
+      const transaction = await contract.vote(index);
+      await transaction.wait();
+      alert(`Voted Successfully from ${signerAddress}`);
+      setState({ ...state, contract });
+    } catch (error) {
+      console.log(error);
+    }
     const updatedUserData = { ...data, voted: true };
     setData(updatedUserData);
-    console.log(data);
   };
 
   return (
@@ -126,7 +175,7 @@ export default function Vote() {
                     />{" "}
                     <button
                       type="button"
-                      onClick={handleVoteClick}
+                      onClick={handleVoteClick(index)}
                       className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE

@@ -1,11 +1,8 @@
-import React from "react";
 import Layout from "../component/Layout/Layout";
 import HeroImg from "../assets/vote.png";
 import { Link } from "react-router-dom";
 
-
 const HomePage = () => {
-
   return (
     <Layout>
       <div className="bg-gradient-to-b">
