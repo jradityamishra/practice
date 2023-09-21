@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initWallet,
-  connectWallet,
+ 
   selectConnected,
   selectError,
 } from "./walletSlice";
@@ -36,7 +36,7 @@ const SuperAdmin = () => {
     initWalletWithCatch();
   }, [dispatch]);
   useEffect(() => {
-    if (error) toast.error(message);
+    if (error) toast.error(error);
     
   }, [error, dispatch]);
 

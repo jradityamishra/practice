@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import Web3 from 'web3';
-import ABI from './ABI.json';
+import ABI from '../page/voting.json';
 
 const initialState = {
   web3: null,
