@@ -7,10 +7,9 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initWallet,
- 
   selectConnected,
   selectError,
-} from "./walletSlice";
+} from "../redux/walletSlice.js";
 import WalletConnectButton from "./WalletConnectButton";
 
 const SuperAdmin = () => {
@@ -108,6 +107,7 @@ const SuperAdmin = () => {
       const candidateNames = ["Amaan", "Satyam", "Sahil"];
       const durationInDays = 1;
       const superAdmin = "0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
+
       contract.methods
         .createBooth(zoneName, candidateNames, votingStart, durationInDays)
         .send({ from: superAdmin })
