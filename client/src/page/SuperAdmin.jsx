@@ -1,13 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Web3 from "web3";
 import ABI from "./voting.json";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initWallet,
+  connectWallet,
+  selectConnected,
+  selectError,
+} from "./walletSlice";
+import WalletConnectButton from "./WalletConnectButton";
 
 const SuperAdmin = () => {
-  const [selectedZone, setSelectedZone] = useState(""); 
+  const [selectedZone, setSelectedZone] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; 
+  const itemsPerPage = 9;
+  const dispatch = useDispatch();
+  const connected = useSelector(selectConnected);
+  const error = useSelector(selectError);
+
+  const contract = useSelector((state) => state.wallet.contract);
+
+  useEffect(() => {
+    
+    const initWalletWithCatch = async () => {
+      try {
+        await dispatch(initWallet());
+      } catch (err) {
+        console.log(err); 
+      }
+    };
+
+    initWalletWithCatch();
+  }, [dispatch]);
+  useEffect(() => {
+    if (error) toast.error(message);
+    
+  }, [error, dispatch]);
 
   const zoneDB = [
     {
@@ -72,62 +103,37 @@ const SuperAdmin = () => {
     },
   ];
 
-  const [state,setState]=useState({
-    web3:null,
-    contract:null
-  })
-
-  const init =async()=>{
-    try{
-          const web3=new Web3(window.ethereum);
-          await window.ethereum.request({method:'eth_requestAccounts'});
-          const contract =new web3.eth.Contract(
-                ABI,
-                "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
-          );
-          setState({web3:web3,contract:contract})
-          //console.log(contract);
-          setConnected(false);
-    }
-    catch(error){
-      console.log(error);
-          alert('Please Install Metamask');
-    }
-    
-}
-
-  const CreateVotingBooth=async()=>{
-    try{
-      const candidateNames = ['Amaan', 'Satyam', 'Sahil'];
+  const CreateVotingBooth = async () => {
+    try {
+      const candidateNames = ["Amaan", "Satyam", "Sahil"];
       const durationInDays = 1;
-      const superAdmin="0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
+      const superAdmin = "0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
       contract.methods
-      .createBooth(zoneName, candidateNames, votingStart, durationInDays)
-      .send({ from: superAdmin })
-      .on('transactionHash', (hash) => {
-        // Transaction sent; you can track it using the transaction hash
-        console.log('Transaction hash:', hash);
-      })
-      .on('confirmation', (confirmationNumber, receipt) => {
-        // Transaction confirmed; you can handle the receipt here
-        console.log('Confirmation number:', confirmationNumber);
-        console.log('Receipt:', receipt);
-      })
-      .on('error', (error) => {
-        // Handle errors here
-        console.error('Error:', error);
-      });
+        .createBooth(zoneName, candidateNames, votingStart, durationInDays)
+        .send({ from: superAdmin })
+        .on("transactionHash", (hash) => {
+          // Transaction sent; you can track it using the transaction hash
+          console.log("Transaction hash:", hash);
+        })
+        .on("confirmation", (confirmationNumber, receipt) => {
+          // Transaction confirmed; you can handle the receipt here
+          console.log("Confirmation number:", confirmationNumber);
+          console.log("Receipt:", receipt);
+        })
+        .on("error", (error) => {
+          // Handle errors here
+          console.error("Error:", error);
+        });
       //console.log(contract);
-      }
-      catch(error){
-        console.log(error);
-        alert('Please Install Metamask');
-      }
-  }
+    } catch (error) {
+      console.log(error);
+      alert("Please Install Metamask");
+    }
+  };
 
   const handleZoneChange = (event) => {
     setSelectedZone(event.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const filteredData = selectedZone
@@ -152,6 +158,9 @@ const SuperAdmin = () => {
           <button className="bg-red-600 p-2 rounded-md text-white">
             End Vote
           </button>
+          <div className="flex my-4 justify-center">
+            {!connected && <WalletConnectButton />}
+          </div>
         </div>
         <div>
           {/* Dropdown filter by zone */}

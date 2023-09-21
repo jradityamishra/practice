@@ -57,4 +57,26 @@ export const initWallet = () => async (dispatch) => {
   }
 };
 
+export const connectWallet = () => async (dispatch, getState) => {
+  try {
+    if (window.ethereum) {
+      await window.ethereum.send('eth_requestAccounts');
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      const state = getState(); 
+      
+      if (accounts && accounts.length > 0) {
+        dispatch(setConnected(true));
+        dispatch(setError(null));
+        state.wallet.web3.setAccount(accounts[0]); 
+      }
+    } else {
+      dispatch(setError('MetaMask is not installed or unavailable.'));
+     
+    }
+  } catch (error) {
+    console.error('MetaMask connection error:', error);
+    dispatch(setError('An error occurred while connecting to MetaMask.'));
+  }
+};
+
 export default walletSlice.reducer;
