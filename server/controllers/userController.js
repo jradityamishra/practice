@@ -21,25 +21,25 @@ export const getUsers = async (req, res, next) => {
     next(err);
   }
 };
-export const refreshToken = (req, res, next) => {
-  try {
-    const user = req.user;
-    delete user.iat;
-    delete user.exp;
-    const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1d",
-    });
-    res.clearCookie("access_token");
-    res.cookie("access_token", accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-    });
-    res.status(200).json({ message: "Access token refreshed successfully." });
-  } catch (error) {
-    next(error);
-  }
-};
+// export const refreshToken = (req, res, next) => {
+//   try {
+//     const user = req.user;
+//     delete user.iat;
+//     delete user.exp;
+//     const accessToken = jwt.sign(user, process.env.JWT_SECRET_KEY, {
+//       expiresIn: "2m",
+//     });
+//     res.clearCookie("access_token");
+//     res.cookie("access_token", accessToken, {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: "strict",
+//     });
+//     res.status(200).json({ message: "Access token refreshed successfully." });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 export const makeAdmin = async (req, res, next) => {
   try {

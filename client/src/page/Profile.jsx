@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../component/Layout/Layout";
 import Spinner from "../component/Spinner";
-import { FaUserCircle, FaUpload } from "react-icons/fa"; // Import the user icon and upload icon
+import { FaUserCircle, FaUpload } from "react-icons/fa"; 
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -119,7 +119,7 @@ const Profile = () => {
                 <div className="relative">
                   <img
                     src={URL.createObjectURL(image)}
-                    alt={`uploaded profile`}
+                    alt={`uploaded profile picture`}
                     className="object-cover rounded-full w-48 h-48"
                   />
                   <label
@@ -158,7 +158,7 @@ const Profile = () => {
               <img
                 src={user.profilePicture}
                 className="w-48 h-48 mx-auto object-cover border-2 border-gray-400 rounded-full mb-4"
-                alt="profile"
+                alt="profile picture"
               />
             )}
           </div>
@@ -213,16 +213,16 @@ const Profile = () => {
       </div>
       {image && (
         <div className="flex justify-center mt-4">
-        <button
-  onClick={() => {
-    setSubmit(true);
-    handleSetAsProfilePicture();
-  }}
-  disabled={submit}
-  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
->
-  Set as Profile Picture
-</button>
+          <button
+            onClick={() => {
+              setSubmit(true);
+              handleSetAsProfilePicture();
+            }}
+            disabled={submit}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
+            Set as Profile Picture
+          </button>
 
         </div>
       )}

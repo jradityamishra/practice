@@ -16,29 +16,7 @@ import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
 import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
 import { useEffect } from "react";
 const App = () => {
-//   const refreshAccessToken = async () => {
-//     try {
-//       const response = await axios.get("/api/users/refresh-token");
-//       if (response.status === 403 || response.status === 401) return;
-//       if (response.data) console.log(response.data.message + " hi ");
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   const refreshInterval = 19 * 60 * 1000 + 50 * 1000;
-
-//   useEffect(() => {
-//     if (sessionStorage.getItem("user")) {
-//       refreshAccessToken();
-
-//       const intervalId = setInterval(refreshAccessToken, refreshInterval);
-
-//       return () => {
-//         clearInterval(intervalId);
-//       };
-//     }
-//   }, []);
+  
 
   return (
     <Routes>
