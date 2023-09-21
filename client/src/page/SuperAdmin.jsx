@@ -11,7 +11,7 @@ import {
   selectConnected,
   selectError,
 } from "../redux/walletSlice";
-import WalletConnectButton from "../redux/walletSlice";
+import WalletConnectButton from "./WalletConnectButton";
 
 const SuperAdmin = () => {
   const [selectedZone, setSelectedZone] = useState("");
