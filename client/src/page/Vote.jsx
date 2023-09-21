@@ -170,13 +170,8 @@ export default function Vote() {
                     />{" "}
                     <button
                       type="button"
-<<<<<<< HEAD
                       onClick={handleVoteClick(zoneName,index)}
                       className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
-=======
-                      onClick={handleVoteClick}
-                      className="border-2 border-gray-400 font-extrabold text-gray-800 hover:text-white rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
->>>>>>> e37dacd18cc89d0b40d494e347385024f5a04f3b
                     >
                       VOTE
                     </button>
