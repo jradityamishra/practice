@@ -28,7 +28,7 @@ const Header = () => {
       {user ? (
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
-            <li className="border border-white hover:bg-amber-200 hover:text-black px-1 rounded-md">
+            <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2  rounded-md">
               {user.isAdmin ? (
                 <Link to="/admin">Dashboard</Link>
               ) : user.isSuperAdmin ? (
@@ -38,10 +38,10 @@ const Header = () => {
               )}
             </li>
 
-            <li>
+            <li className="my-1">
               <Link to="/profile">Profile</Link>
             </li>
-            <li>
+            <li className="my-1">
               <Link to="/results">Results</Link>
             </li>
             <button
@@ -65,27 +65,23 @@ const Header = () => {
             className={
               !nav
                 ? "hidden"
-                : "absolute top-20 left-0 w-full h-100 bg-gray-900 flex flex-col rounded-md justify-center items-center"
+                : "z-10 absolute top-20 left-0 w-full h-100 bg-gray-900 flex flex-col rounded-md justify-center items-center"
             }
           >
-            <li className="my-4 text-4xl border-2 border-white p-2 rounded-md">
+            <li className="my-6 text-4xl border-2 border-white hover:bg-purple-200 hover:text-black p-2 rounded-md">
               <Link onClick={handleClick} to="/verify">
-                Verify
-              </Link>
-            </li>
-            <li className="py-6 text-4xl">
-              <Link onClick={handleClick} to="/vote">
                 Vote
               </Link>
             </li>
-            <li className="py-6 text-4xl">
+
+            <li className="my-6 text-4xl">
               <Link onClick={handleClick} to="/profile">
                 Profile
               </Link>
             </li>
-            <li className="py-6 text-4xl">
-              <Link onClick={handleClick} to="/guide">
-                Guide
+            <li className="my-6 text-4xl">
+              <Link onClick={handleClick} to="/results">
+                Results
               </Link>
             </li>
             <button
@@ -94,7 +90,7 @@ const Header = () => {
                 dispatch(reset());
                 navigate("/");
               }}
-              className="border px-4 py-2 rounded-lg hover:text-amber-400 hover:border-purple-600"
+              className="border px-4 py-2 my-6 rounded-lg hover:text-amber-400 hover:border-purple-600"
             >
               Sign Out
             </button>

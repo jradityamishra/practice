@@ -17,19 +17,31 @@ import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
 import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
 import Adhar from "./page/Adhar.js";
 import FaceRecognition from "./page/FaceRecognition.js";
+import { useEffect } from "react";
 const App = () => {
-  const refreshAccessToken = async () => {
-    try {
-      const response = await axios.get("/api/users/refresh-token");
-      if (response.status === 403 || response.status === 401) return;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+//   const refreshAccessToken = async () => {
+//     try {
+//       const response = await axios.get("/api/users/refresh-token");
+//       if (response.status === 403 || response.status === 401) return;
+//       if (response.data) console.log(response.data.message + " hi ");
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
 
-  const refreshInterval = 60 * 1000 * 19;
+//   const refreshInterval = 19 * 60 * 1000 + 50 * 1000;
 
-  setInterval(refreshAccessToken, refreshInterval);
+//   useEffect(() => {
+//     if (sessionStorage.getItem("user")) {
+//       refreshAccessToken();
+
+//       const intervalId = setInterval(refreshAccessToken, refreshInterval);
+
+//       return () => {
+//         clearInterval(intervalId);
+//       };
+//     }
+//   }, []);
 
   return (
     <Routes>
@@ -63,8 +75,9 @@ const App = () => {
       </Route>
 
       {/* superadmin protected routes */}
+     
       <Route element={<ProtectedRoutes superAdmin={true} admin={false} user={false} />}>
-        <Route path="//super-admin" element={<SuperAdmin />} />
+        <Route path="/super-admin" element={<SuperAdmin />} />
         <Route path="/results" element={<Results />} />
         <Route path="/profile" element={<Profile />} />
       </Route>

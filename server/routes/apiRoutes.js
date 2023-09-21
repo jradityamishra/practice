@@ -9,6 +9,7 @@ app.get("/logout", (req, res) => {
 app.get("/get-token", (req, res) => {
   try {
     const accessToken = req.cookies.access_token;
+    console.log(accessToken)
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     return res.json({
       isAdmin: decoded.isAdmin,
@@ -16,6 +17,7 @@ app.get("/get-token", (req, res) => {
       token: decoded,
     });
   } catch (err) {
+    console.log(err)
     return res.status(401).send("Unauthorized. Invalid Token");
   }
 });
