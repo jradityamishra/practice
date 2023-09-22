@@ -23,6 +23,10 @@ const registerCandiadateModel=new mongoose.Schema({
         type:Number,
         default :0,
         required:true
+    },
+    picture:{
+        type:String,
+        required:true,
     }
 },{timestamps:true})
 export default mongoose.model("registerCandiadateModel",registerCandiadateModel)
