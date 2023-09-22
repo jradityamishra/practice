@@ -101,4 +101,30 @@ export const registerCandidate=async(req,resp)=>{
           };
         }
       };
+
+
+
+export const getCandidate=async(req,resp)=>{
+    try{
+        const data=await registerCandidateModel.find();
+        if(data){
+            resp.status(200).send({
+                success:true,
+                message:"DATA IS GET",
+                data
+            })   
+        }else{
+            resp.status(401).send({
+                success:false,
+                message:"something error in data"
+            })
+        }
+    }catch(error){
+        console.log(error)
+        resp.status(500).send({
+            succcess:true,
+            message:error.message
+        })
+    }
+}
       
