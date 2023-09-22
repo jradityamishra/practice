@@ -2,13 +2,27 @@ import {useState,useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Confirmation from "./Confirmation";
-import abi from "./voting.json";
+import WalletConnectButton from "../component/WalletConnectButton"
+import abi from "./voting.json"; 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initWallet,
+  setConnected,
+  setError,
+} from "../redux/walletSlice.js";
+import web3 from 'web3'
 // import { ethers } from "ethers";
 // import { useWeb3 } from './Web3Context';
 // import contractInstance from "./contractInstance";
 
 
 const Vote = () => {
+  const contract = useSelector((state) => state.wallet.contract);
+  const [loading,setLoading]=useState(false);
+  const [state,setState]=useState(false);
+  const [data,setData]=useState(false);
+
+  const error = useSelector(setError);
 const candidatesDB = [
   {
     id: 1,
@@ -123,7 +137,7 @@ const userData = {
     }
   }
   useEffect(() => {
-    connectToMetaMask();
+    WalletConnectButton();
   }, []);
 
 
@@ -131,7 +145,7 @@ const userData = {
     try {
       const transaction = await contract.vote(zoneName,index);
       await transaction.wait();
-      alert(`Voted Successfully from ${signerAddress}`);
+     // alert(`Voted Successfully from ${signerAddress}`);
       setState({ ...state, contract });
     } catch (error) {
       console.log(error);
@@ -160,7 +174,7 @@ const userData = {
                     />{" "}
                     <button
                       type="button"
-                      onClick={handleVoteClick(zoneName,index)}
+                      onClick={handleVoteClick("Ruby",index)}
                       className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE
