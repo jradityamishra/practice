@@ -55,6 +55,8 @@ export const makeAdmin = async (req, res, next) => {
   }
 };
 
+
+
 export const registerUser = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password, phoneNumber } = req.body;
@@ -127,7 +129,7 @@ export const uploadImage = async (req, res, next) => {
   try {
     const id = req.params.id;
     const user = await User.findById(id).orFail();
-    user.profilePicture=req.body.url;
+    user.profilePicture = req.body.url;
 
     await user.save();
     res.status(201).send("Profile picture updated");
