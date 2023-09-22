@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import Layout from "../component/Layout/Layout";
-import HeroImg from "../assets/vote.png";
-import { Link } from "react-router-dom";
-
-const HomePage = () => {
-=======
 import React, { useEffect, useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import Layout from "../component/Layout/Layout";
@@ -45,7 +38,6 @@ const handleClick=()=>{
    setValue()
   },[])
 
->>>>>>> e37dacd18cc89d0b40d494e347385024f5a04f3b
   return (
     <Layout>
       <div className="bg-gradient-to-b">

@@ -3,6 +3,7 @@ import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Web3 from "web3";
 import ABI from "./voting.json";
+import contract from '../Contract/Normalvote.sol'
 
 const SuperAdmin = () => {
   const [selectedZone, setSelectedZone] = useState(""); 
