@@ -18,9 +18,8 @@ import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
 import Adhar from "./page/Adhar.js";
 import FaceRecognition from "./page/FaceRecognition.js";
 import { useEffect } from "react";
+import CreateCandidate from "./page/CreateCandidate.jsx";
 const App = () => {
-  
-
   return (
     <Routes>
       <Route path="/register" element={<RegisterPage />} />
@@ -30,9 +29,13 @@ const App = () => {
       <Route path="/vote" element={<Vote />} />
 
       {/* user protected routes */}
-      <Route element={<ProtectedRoutes admin={false} superAdmin={false} user={true} />}>
+      <Route
+        element={
+          <ProtectedRoutes admin={false} superAdmin={false} user={true} />
+        }
+      >
         <Route path="/results" element={<Results />} />
-         <Route path="/verify" element={<VerifyPage />} />
+        <Route path="/verify" element={<VerifyPage />} />
         <Route path="/email" element={<Email />} />
         <Route path="/facereconition" element={<FaceRecognition />} />
         <Route path="/adhar" element={<Adhar />} />
@@ -41,10 +44,14 @@ const App = () => {
       </Route>
 
       {/* admin protected routes */}
-      <Route element={<ProtectedRoutes admin={true} superAdmin={false} user={false}/>}>
+      <Route
+        element={
+          <ProtectedRoutes admin={true} superAdmin={false} user={false} />
+        }
+      >
         <Route path="/admin" element={<ZoneAdminHome />} />
         <Route path="/email" element={<Email />} />
-         <Route path="/facereconition" element={<FaceRecognition />} />
+        <Route path="/facereconition" element={<FaceRecognition />} />
         {/* <Route path="/vote" element={<Vote />} /> */}
         <Route path="/adhar" element={<Adhar />} />
         {/* <Route path="/admin/verify" element={<ZoneAdminVerify />} /> */}
@@ -54,11 +61,16 @@ const App = () => {
       </Route>
 
       {/* superadmin protected routes */}
-     
-      <Route element={<ProtectedRoutes superAdmin={true} admin={false} user={false} />}>
+
+      <Route
+        element={
+          <ProtectedRoutes superAdmin={true} admin={false} user={false} />
+        }
+      >
         <Route path="/super-admin" element={<SuperAdmin />} />
         <Route path="/results" element={<Results />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/create-candidate" element={<CreateCandidate />} />
       </Route>
     </Routes>
   );
