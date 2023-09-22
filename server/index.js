@@ -9,6 +9,7 @@ import adhardetailRoutes from "./routes/adhardetailRoute.js"
 import apiRoutes from './routes/apiRoutes.js'
 import mailAuthRoute from "./routes/mailAuthRoute.js"
 import faceReconitionRoute from './routes/faceRecongnitionRoute.js'
+import registerCandaite from './routes/registerCandidateRoute.js'
 //CONFIG ENV
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use("/api", apiRoutes);
 app.use("/adhar",adhardetailRoutes)
 app.use('/mailConfirm',mailAuthRoute)
 app.use("/faceRecoginiton",faceReconitionRoute);
+app.use("/registerCandidate",registerCandaite);
 
 app.get("/", async (req, res, next) => {
   res.json({ message: "API running" });
