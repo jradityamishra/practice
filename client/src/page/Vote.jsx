@@ -4,10 +4,11 @@ import Grid from "@mui/material/Grid";
 import Confirmation from "./Confirmation";
 import abi from "./voting.json";
 // import { ethers } from "ethers";
-import { useWeb3 } from './Web3Context';
+// import { useWeb3 } from './Web3Context';
 // import contractInstance from "./contractInstance";
 
 
+const Vote = () => {
 const candidatesDB = [
   {
     id: 1,
@@ -103,17 +104,6 @@ const userData = {
   voted: false,
 };
 
-export default function Vote() {
-  const web3 = useWeb3();
-  const [loading, setLoading] = useState(false);
-
-  const [data, setData] = useState(userData);
-  const [state, setState] = useState({
-    provider: null,
-    signer: null,
-    contract: null,
-  });
-
   const connectWallet=async()=>{
     try {
       setLoading(true);
@@ -170,8 +160,8 @@ export default function Vote() {
                     />{" "}
                     <button
                       type="button"
-                      onClick={handleVoteClick}
-                      className="border-2 border-gray-400 font-extrabold text-gray-800 hover:text-white rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
+                      onClick={handleVoteClick(zoneName,index)}
+                      className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE
                     </button>
@@ -210,3 +200,4 @@ export default function Vote() {
     </Layout>
   );
 }
+export default Vote;

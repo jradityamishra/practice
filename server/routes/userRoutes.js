@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 import { verifyIfLoggedIn,verifyIfAdmin,verifyIfSuperAdmin } from "../middlewares/verifyAuthToken.js";
-import { getUsers, registerUser, loginUser, makeAdmin,refreshToken, getUserProfile,uploadImage } from "../controllers/userController.js";
+import { getUsers, registerUser, loginUser, makeAdmin, getUserProfile,uploadImage } from "../controllers/userController.js";
 
 const router = Router(); 
 
@@ -10,7 +10,7 @@ router.post("/login", loginUser);
 
 router.use(verifyIfLoggedIn)
 router.post("/upload/:id",uploadImage);
-router.get("/refresh-token",refreshToken)
+// router.get("/refresh-token",refreshToken)
 router.get("/get-profile/:id",getUserProfile)
 //profile routes
 
