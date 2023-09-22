@@ -39,7 +39,8 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
 
   sessionStorage.removeItem("user");
-
+  sessionStorage.removeItem("connected");
+  sessionStorage.removeItem("address");
   return null;
 });
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {

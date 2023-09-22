@@ -15,12 +15,12 @@ import web3 from 'web3'
 // import { useWeb3 } from './Web3Context';
 // import contractInstance from "./contractInstance";
 
-
 const Vote = () => {
-  const contract = useSelector((state) => state.wallet.contract);
+  const [hasVoted,setHasVoted]=useState(false);
   const [loading,setLoading]=useState(false);
   const [state,setState]=useState(false);
-  const [data,setData]=useState(false);
+  // const [data,setData]=useState(false);
+  const contract = useSelector((state) => state.wallet.contract);
 
   const error = useSelector(setError);
 const candidatesDB = [
@@ -105,6 +105,7 @@ const candidatesDB = [
     image_url: "https://example.com/olivia_turner.jpg",
   },
 ];
+
 //Fetch both the data from database
 const userData = {
   fullName: "Mickael Poulaz",
@@ -118,47 +119,26 @@ const userData = {
   voted: false,
 };
 
-  const connectWallet=async()=>{
-    try {
-      setLoading(true);
-
-      if (window.ethereum) {
-        await window.ethereum.send('eth_requestAccounts');
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-
-        if (accounts && accounts.length > 0) {
-          web3.setAccount(accounts[0]);
-        }
-      }
-    } catch (error) {
-      console.error('MetaMask connection error:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    WalletConnectButton();
-  }, []);
+  
 
 
   const handleVoteClick = async (zoneName,index) => {
     try {
       const transaction = await contract.vote(zoneName,index);
       await transaction.wait();
-     // alert(`Voted Successfully from ${signerAddress}`);
+     // alert(Voted Successfully from ${signerAddress});
       setState({ ...state, contract });
     } catch (error) {
       console.log(error);
     }
-    const updatedUserData = { ...data, voted: true };
-    setData(updatedUserData);
+    
   };
 
   return (
     <Layout>
       <p className="text-4xl font-bold flex justify-center">Vote</p>
 
-      {data.voted ? (
+      {hasVoted ? (
         <Confirmation />
       ) : (
         <Grid container spacing={4} className="p-8">

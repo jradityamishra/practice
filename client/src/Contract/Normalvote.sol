@@ -1,111 +1,188 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract SimpleVoting {
-    // Structs
 
-    struct Candidate {
-        string name;
-        uint votes;
-    }
-    struct Booth {
-        string zoneName;
-        Candidate [] candidates;
-        uint votingStart;
-        uint duration;
-        address admin;
-        uint candidatescnt;
+contract voting{
+    ///////////// 
+    ///Structs///
+    /////////////
+
+    struct Candidate{
+        string  name;
+        uint128 votes;
+        string zone;
     }
 
-    struct Voter {
+    struct Voter{
         address voterAddress;
-        bool isVoted;
+        bool  voted;
     }
 
-    // Events
-    event BoothCreated(string zoneName, Candidate[] candidates, uint votingStart,address superadmin, uint duration);
-    event Voted(string zoneName, uint candidateIndex);
-    event adminadded(address admin_,string  zoneName_);
-    event candidateAdded(string candidateName_,string zoneName_,address admin_);
+    struct Admin{
+        string zone;
+    }
 
-    // State Variables
-    uint public zones = 0;
+    //State Variables////
+    /////////////////////
+    
     address public superAdmin;
+    uint votingStart;
+    uint votingEnd;
+    string public zone;
+    Candidate[] public candidates;
 
-    // Mappings
-    mapping(string => Booth) private booths;
-    mapping(address => bool) public voters;
-    mapping(address => bool) public isAdmin;
+    ///MAPPINGS///
+    //////////////
+    mapping(address voteradr => bool isvoted) public voters;
+    mapping(address adminadr => bool isadmin) public admins;
+    mapping(address => string) public adminZones;
+    mapping(string name=>uint Index)public candidateno;
 
-    // Modifiers
-    modifier onlyAdmin(string memory zoneName_,address admin_) {
-        require(isAdmin[admin_], "Only Admins");
-        Booth storage booth = booths[zoneName_];
-        require(booth.admin==admin_,"Not an admin");
-        _;
-    }
-    modifier onlysuperAdmin() {
-        require(superAdmin==msg.sender, "Only Admins");
-        _;
-    }
-
-    // Main functions
-     function createBooth(
-        string memory zoneName_,
-        string [] memory candidateNames_,
-        uint votingStart_,
-        uint durationinDays_
-    ) external payable {
-        uint duration = votingStart_ + (durationinDays_ * 1 days);
-        Booth storage booth = booths[zoneName_];
-        booth.zoneName = zoneName_;
-        booth.votingStart = votingStart_;
-        booth.duration = duration;
-        booth.candidatescnt = 0;
+    constructor(string memory _zone){
         superAdmin=msg.sender;
-        for (uint i = 0; i < candidateNames_.length; i++) {
-        booth.candidates.push(Candidate(candidateNames_[i], 0));
-        booth.candidatescnt++;
+        zone=_zone;
+    }
+
+    //////////////
+    //Modifiers//
+    //////////////
+    modifier onlyadmin(address admin_){
+        require(admins[admin_],"Only Admins");
+        _;
+    }
+   modifier onlysuperAdmin{
+       require(superAdmin==msg.sender,"Only Superadmin ");
+       _;
+   }
+       
+    ////Main Functions///
+    /////////////////////
+    function addAdmin(address _admin) public payable onlysuperAdmin {
+        adminZones[_admin] = zone;
+        admins[_admin]=true;
+    }
+
+    function addCandidate(string memory partyName,address admin) public onlyadmin(admin_) {
+        require(!getVotingStatus(),"Voting is going on Can't add now !");
+        candidates.push(Candidate({
+                name: _partyName,
+                votes: 0,
+                zone: adminZones[msg.sender]
+        }));
+        candidateno[_partyName]=candidates.length+1;
+    }
+
+    ///Working functions///
+    ///////////////////////
+    function initiateVoting(string[] memory _candidateNames, uint256 _durationInminutes) external{ 
+        require(_candidateNames.length>=2,"Atleast two Candidates should be there in Election ");
+        for (uint128 i = 0; i < _candidateNames.length; i++) {
+            candidates.push(Candidate({
+                name: _candidateNames[i],
+                votes: 0,
+                zone:adminZones[msg.sender]
+            }));
+            candidateno[_candidateNames[i]]=i;
         }
-        // emit BoothCreated(zoneName_, booth.candidates, votingStart_,msg.sender, duration);
-        zones++;
+        votingStart = block.timestamp;
+        votingEnd = block.timestamp + (_durationInminutes * 1 minutes);
     }
 
-     function addAdmin(address admin_,string memory zoneName_) external onlysuperAdmin {
-        require(isAdmin[admin_] ==false,"Already an admin ");
-        Booth storage booth = booths[zoneName_];
-        booth.admin=admin_;
-        isAdmin[admin_]=true;
-        emit adminadded(admin_,zoneName_);
+    function vote(uint _candidateIndex,address voter) public {
+        require(block.timestamp>votingStart,"Voting hasn't started !");
+        require(block.timestamp<votingEnd,"Voting Ended !");
+        require(msg.sender!=address(0),"Invalid Address");
+        require(voters[voter]==false,"Already Voted Can't vote Twice!");
+        candidates[_candidateIndex].votes++;
+        voters[voter]=true;
     }
 
-    function addCandidate(string memory zoneName_, string memory candidateName_,address admin_) external onlyAdmin(zoneName_,admin_) {
-    Booth storage booth = booths[zoneName_];
-    require(booth.candidatescnt < booth.candidates.length, "Too many candidates added.");
-    booth.candidates[booth.candidatescnt].name = candidateName_;
-    booth.candidates[booth.candidatescnt].votes = 0;
-    booth.candidatescnt++;
-    emit candidateAdded(candidateName_,zoneName_,admin_);
-}
 
-    function vote(string memory zoneName_, uint candidateIndex_) public {
-        require(!voters[msg.sender], "You have already voted.");
-        Booth storage booth = booths[zoneName_];
-        require(candidateIndex_ < booth.candidates.length, "Invalid candidate index.");
-        booth.candidates[candidateIndex_].votes++;
-        voters[msg.sender] = true;
-        emit Voted(zoneName_, candidateIndex_);
+    function showResults() external view onlysuperAdmin returns (Candidate[] memory) {
+        require(!getVotingStatus(),"Voting is still On ");
+        return candidates;
     }
 
-    function GetResults(string memory zoneName_) external view onlysuperAdmin returns (Candidate[] memory)  {
-    Booth storage booth = booths[zoneName_];
-    return booth.candidates;
-    }
-
-    function getBoothByZoneName(string memory zoneName_) external view returns (Booth memory) {
-        return booths[zoneName_];
+      function getVotingStatus() public view returns (bool) {
+        return (block.timestamp >= votingStart && block.timestamp < votingEnd);
     }
 }
 
-// ["Amaan","Meghna"]
-// 0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428
+contract VotingFactory{
+
+    address public owner;
+    address[] public deployedContracts;
+    voting newContract;
+
+    struct Candidate{
+        string  name;
+        uint128 votes;
+        string zone;
+    }
+    //////////////
+    ///mappings///
+    //////////////
+    mapping(address => string) public contractZones;
+    mapping(string =>address)public zonesContract;
+    mapping(address superadminadr => bool issuperadmin) public superadmins;
+    
+
+    constructor(){
+        owner=msg.sender;
+    }
+
+    //////////////////
+    //////Modifier////
+    //////////////////
+     modifier onlysuperadmin {
+        require(superadmins[msg.sender],"Only Super Admins");
+        _;
+    }
+    modifier onlyOwner {
+        require(msg.sender==owner,"Only Owner");
+        _;
+    }
+
+    ///Main Functions///
+    //////////////////////
+
+    function createVotingContract(string memory _zone) public payable  {
+        newContract = new voting(_zone);
+        deployedContracts.push(address(newContract));
+        contractZones[address(newContract)] = _zone;
+        zonesContract[_zone]=address(newContract);
+    }
+
+    function AddSuperAdminVF(address superAdmin) public payable{
+        require(!superadmins[msg.sender],"Already a superAdmin");
+        superadmins[superAdmin]=true;
+    }
+
+    function AddCandidateVF(string memory _partyname) public{
+        newContract.addCandidate(_partyname,msg.sender);
+    }
+
+    function addadminVF(address _admin) public {
+        newContract.addAdmin(_admin);
+    }
+
+
+    function initiateVotingVF(string[] memory _candidateNames, uint256 _durationInDays) public {
+        newContract.initiateVoting(_candidateNames,_durationInDays);
+    }
+
+    function voteVF(uint _candidateIndex,address voter) public  {
+      newContract.vote(_candidateIndex,voter);
+    } 
+    
+    function getStatus() public view returns(bool){
+        return newContract.getVotingStatus();
+    }
+
+    function showResultsVF() public view returns (voting.Candidate[] memory) {
+        return newContract.showResults();
+    }
+}
+
+
+//0xfbDaBD3eb616dd601264F7983DCA1Ed935DDcD44

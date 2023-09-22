@@ -1,43 +1,62 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
-// import Web3 from "web3";
+import Web3 from "web3"; // Import Web3
+
 import ABI from "./voting.json";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  initWallet,
-  setConnected,
-  setError,
-} from "../redux/walletSlice.js";
+import { useSelector } from "react-redux";
 import WalletConnectButton from "../component/WalletConnectButton";
-
+import { selectError } from "../redux/walletSlice";
 const SuperAdmin = () => {
   const [selectedZone, setSelectedZone] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
-  const dispatch = useDispatch();
-  const connected = useSelector(setConnected);
-  const error = useSelector(setError);
+  const [connected, setConnected] = useState(false);
+  useEffect(() => {
+    const sessionStorageConnected = JSON.parse(
+      sessionStorage.getItem("connected")
+    );
+    if (sessionStorageConnected) {
+      setConnected(sessionStorageConnected);
+    }
+  }, []);
+  const address = JSON.parse(sessionStorage.getItem("address")) || "";
 
-  const contract = useSelector((state) => state.wallet.contract);
+  const error = useSelector(selectError);
+  const [fetched, setFetched] = useState(false);
+  let contract1;
+  const initContract = async () => {
+    try {
+      const provider = window.ethereum;
+      if (typeof provider === "undefined") {
+        toast.error(
+          "MetaMask is not installed. Please install it to use this application."
+        );
+        return;
+      }
+
+      const web3 = new Web3(provider);
+      await provider.request({ method: "eth_requestAccounts" });
+
+      contract1 = new web3.eth.Contract(
+        ABI,
+        "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
+      );
+      setFetched(true);
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
 
   useEffect(() => {
-    
-    const initWalletWithCatch = async () => {
-      try {
-        await dispatch(initWallet());
-      } catch (err) {
-        console.log(err); 
-      }
-    };
+    initContract();
+  }, [fetched]);
 
-    initWalletWithCatch();
-  }, [dispatch]);
   useEffect(() => {
     if (error) toast.error(error);
-    
-  }, [error, dispatch]);
+  }, [error]);
 
   const zoneDB = [
     {
@@ -102,39 +121,83 @@ const SuperAdmin = () => {
     },
   ];
 
-  // const contract = useSelector(selectContract);
-
+  // const contract1 = useSelector(selectContract);
+/*
   const CreateVotingBooth = async () => {
     try {
+      if (fetched) {
+        const candidateNames = ["AAP", "TMC", "BJP", "CPIM"];
+        const durationInDays = 5;
+        const votingStart = Date.now();
+        const superAdmin = address;
+        const zoneName = "Ruby";
+        console.log("here");
+        console.log(contract1);
+        await contract1.methods
+          .AddSuperAdminVF(superAdmin)
+          .send({ 
+          from: superAdmin,
+          gas:30000000
+        })
+          .on("transactionHash", (hash) => {
+            // Transaction sent; you can track it using the transaction hash
+            console.log("Transaction hash:", hash);
+          })
+          .on("confirmation", (confirmationNumber, receipt) => {
+            // Transaction confirmed; you can handle the receipt here
+            console.log("Confirmation number:", confirmationNumber);
+            console.log("Receipt:", receipt);
+          })
+          .on("error", (error) => {
+            // Handle errors here
+            console.error("Error:", error);
+          });
 
-      const candidateNames = ["Amaan", "Satyam", "Sahil"];
-      const durationInDays = 1;
-      const votingStart=new Date.now();
-      const superAdmin = "0x0DbbFd3deF00C5aAd59A6427e339F0194D00f428";
-      const zoneName="Ruby";
-      contract.methods
-        .createBooth(zoneName, candidateNames, votingStart, durationInDays)
-        .send({ from: superAdmin })
-        .on("transactionHash", (hash) => {
-          // Transaction sent; you can track it using the transaction hash
-          console.log("Transaction hash:", hash);
-        })
-        .on("confirmation", (confirmationNumber, receipt) => {
-          // Transaction confirmed; you can handle the receipt here
-          console.log("Confirmation number:", confirmationNumber);
-          console.log("Receipt:", receipt);
-        })
-        .on("error", (error) => {
-          // Handle errors here
-          console.error("Error:", error);
-        });
-      //console.log(contract);
+        // await contract1.methods
+        //   .createVotingContract(zoneName)
+        //   .send({ from: superAdmin ,gas:30000000})
+        //   .on("transactionHash", (hash) => {
+        //     // Transaction sent; you can track it using the transaction hash
+        //     console.log("Transaction hash:", hash);
+        //   })
+        //   .on("confirmation", (confirmationNumber, receipt) => {
+        //     // Transaction confirmed; you can handle the receipt here
+        //     console.log("Confirmation number:", confirmationNumber);
+        //     console.log("Receipt:", receipt);
+        //   })
+        //   .on("error", (error) => {
+        //     // Handle errors here
+        //     console.error("Error:", error);
+        //   });
+
+        // await contract1.methods
+        //   .initiateVotingVF(candidateNames, durationInDays)
+        //   .send({ from: superAdmin ,gas:30000000})
+        //   .on("transactionHash", (hash) => {
+        //     // Transaction sent; you can track it using the transaction hash
+        //     console.log("Transaction hash:", hash);
+        //   })
+        //   .on("confirmation", (confirmationNumber, receipt) => {
+        //     // Transaction confirmed; you can handle the receipt here
+        //     console.log("Confirmation number:", confirmationNumber);
+        //     console.log("Receipt:", receipt);
+        //   })
+        //   .on("error", (error) => {
+        //     // Handle errors here
+        //     console.error("Error:", error);
+        //   });
+      }
+
+      //console.log(contract1);
     } catch (error) {
       console.log(error);
       alert("Please Install Metamask");
     }
   };
-
+  const changeWallet = () => {
+    setConnected(true);
+    console.log(connected);
+  };
   const handleZoneChange = (event) => {
     setSelectedZone(event.target.value);
     setCurrentPage(1);
@@ -154,7 +217,7 @@ const SuperAdmin = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
+*/
   return (
     <Layout>
       <div className="flex flex-col my-4">
@@ -163,12 +226,21 @@ const SuperAdmin = () => {
             End Vote
           </button>
           <div className="flex my-4 justify-center">
-            {!connected && <WalletConnectButton />}
+            {!connected ? (
+              <WalletConnectButton />
+            ) : (
+              <button
+                // onClick={CreateVotingBooth}
+                className="bg-green-600 p-2 rounded-md text-white"
+              >
+                Create Booth
+              </button>
+            )}
           </div>
         </div>
         <div>
           {/* Dropdown filter by zone */}
-          <div className="my-4 mx-16">
+          {/* <div className="my-4 mx-16">
             <label className="mr-2">Filter by Zone:</label>
             <select
               value={selectedZone}
@@ -176,17 +248,16 @@ const SuperAdmin = () => {
               className="border border-gray-300 rounded-md p-2"
             >
               <option value="">All Zones</option>
-              {/* Generate options based on unique zone IDs */}
               {[...new Set(zoneDB.map((zone) => zone.zoneId))].map((zoneId) => (
                 <option key={zoneId} value={zoneId}>
                   Zone {zoneId}
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <Grid container spacing={4} className="p-8">
-            {currentData.map((zone, index) => (
+            {zoneDB.map((zone, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <div className="border-2 border-red-400 p-4">
                   <p>Zone : {zone.zoneId}</p>
@@ -199,7 +270,7 @@ const SuperAdmin = () => {
           </Grid>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-4">
+          {/* <div className="flex justify-center mt-4">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}
@@ -211,7 +282,7 @@ const SuperAdmin = () => {
                 {index + 1}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>

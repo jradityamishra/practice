@@ -45,13 +45,8 @@ const Register = () => {
     } else {
       setError(null);
     }
-    const nameParts = userData?.fullname.split(" ");
-
-    if (nameParts.length >= 2) {
-      const [firstName, lastName] = nameParts;
-      delete userData.fullname;
       delete userData.confirmPassword;
-      const formData = { ...userData, firstName, lastName };
+      const formData = { ...userData};
       try {
         dispatch(register(formData));
         
@@ -59,7 +54,7 @@ const Register = () => {
         console.log(err);
         toast.error(err.message || "An error occurred. Please try again.");
       }
-    }
+    
   };
 
   return (

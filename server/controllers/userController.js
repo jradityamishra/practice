@@ -9,8 +9,7 @@ export const getUsers = async (req, res, next) => {
     if (searchQuery) {
       query = {
         $or: [
-          { firstName: { $regex: new RegExp(searchQuery, "i") } },
-          { lastName: { $regex: new RegExp(searchQuery, "i") } },
+          { fullName: { $regex: new RegExp(searchQuery, "i") } },
           { email: { $regex: new RegExp(searchQuery, "i") } },
         ],
       };
@@ -57,8 +56,8 @@ export const makeAdmin = async (req, res, next) => {
 
 export const registerUser = async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password, phoneNumber } = req.body;
-    if (!firstName || !lastName || !email || !password || !phoneNumber)
+    const { fullName, email, password, phoneNumber } = req.body;
+    if (!fullName || !email || !password || !phoneNumber)
       return res.status(400).send("All input fields are required");
     const hashedPassword = hashPassword(password);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,8 +71,7 @@ export const registerUser = async (req, res, next) => {
       res.status(400).json({ error: "User already exists!" });
     } else {
       const user = await User.create({
-        firstName,
-        lastName,
+        fullName,
         email: email.toLowerCase(),
         password: hashedPassword,
         phoneNumber,
@@ -83,8 +81,7 @@ export const registerUser = async (req, res, next) => {
           "access_token",
           generateAuthToken(
             user._id,
-            user.firstName,
-            user.lastName,
+            user.fullName,
             user.email,
             user.isAdmin,
             user.isSuperAdmin
@@ -98,8 +95,7 @@ export const registerUser = async (req, res, next) => {
         .status(201)
         .json({
           _id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          fullName: user.fullName,
           email: user.email,
           isAdmin: user.isAdmin,
           isSuperAdmin: user.isSuperAdmin,
@@ -158,8 +154,7 @@ export const loginUser = async (req, res, next) => {
           "access_token",
           generateAuthToken(
             user._id,
-            user.firstName,
-            user.lastName,
+            user.fullName,
             user.email,
             user.isAdmin,
             user.isSuperAdmin
@@ -169,8 +164,7 @@ export const loginUser = async (req, res, next) => {
         .status(200)
         .json({
           _id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          fullName: user.fullName,
           email: user.email,
           isAdmin: user.isAdmin,
           isSuperAdmin: user.isSuperAdmin,

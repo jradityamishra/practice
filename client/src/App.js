@@ -27,7 +27,7 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/guide" element={<Guide />} />
-
+      {/* <Route path="/vote" element={<Vote />} /> */}
       {/* user protected routes */}
       <Route element={<ProtectedRoutes admin={false} superAdmin={false} user={true} />}>
         <Route path="/results" element={<Results />} />
@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/email" element={<Email />} />
         <Route path="/facereconition" element={<FaceRecognition />} />
         <Route path="/adhar" element={<Adhar />} />
-        <Route path="/vote" element={<Vote />} />
+        
         <Route path="/profile" element={<Profile />} />
       </Route>
 
@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/admin" element={<ZoneAdminHome />} />
         <Route path="/email" element={<Email />} />
          <Route path="/facereconition" element={<FaceRecognition />} />
-        <Route path="/vote" element={<Vote />} />
+        {/* <Route path="/vote" element={<Vote />} /> */}
         <Route path="/adhar" element={<Adhar />} />
         {/* <Route path="/admin/verify" element={<ZoneAdminVerify />} /> */}
         {/* <Route path="/admin/vote" element={<ZoneAdminVote />} /> */}

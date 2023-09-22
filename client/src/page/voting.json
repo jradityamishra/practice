@@ -1,24 +1,31 @@
 [
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_zone",
-				"type": "string"
-			}
-		],
+		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_partyname",
+				"type": "string"
+			}
+		],
+		"name": "AddCandidateVF",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "_admin",
+				"name": "superAdmin",
 				"type": "address"
 			}
 		],
-		"name": "addAdmin",
+		"name": "AddSuperAdminVF",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
@@ -26,17 +33,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_partyName",
-				"type": "string"
-			},
-			{
 				"internalType": "address",
 				"name": "_admin",
 				"type": "address"
 			}
 		],
-		"name": "addCandidate",
+		"name": "addadminVF",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -45,15 +47,15 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "adminadr",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "adminZones",
+		"name": "contractZones",
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "zones",
+				"name": "",
 				"type": "string"
 			}
 		],
@@ -63,39 +65,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "adminadr",
-				"type": "address"
-			}
-		],
-		"name": "admins",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "isadmin",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "string",
-				"name": "name",
+				"name": "_zone",
 				"type": "string"
 			}
 		],
-		"name": "candidateno",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "Index",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"name": "createVotingContract",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -106,22 +83,12 @@
 				"type": "uint256"
 			}
 		],
-		"name": "candidates",
+		"name": "deployedContracts",
 		"outputs": [
 			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint128",
-				"name": "votes",
-				"type": "uint128"
-			},
-			{
-				"internalType": "string",
-				"name": "zone",
-				"type": "string"
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -129,7 +96,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "getVotingStatus",
+		"name": "getStatus",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -151,21 +118,29 @@
 				"internalType": "uint256",
 				"name": "_durationInDays",
 				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_admin",
-				"type": "address"
 			}
 		],
-		"name": "initiateVoting",
+		"name": "initiateVotingVF",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "showResults",
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "showResultsVF",
 		"outputs": [
 			{
 				"components": [
@@ -196,29 +171,16 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_candidateIndex",
-				"type": "uint256"
-			}
-		],
-		"name": "vote",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
-				"name": "voteradr",
+				"name": "superadminadr",
 				"type": "address"
 			}
 		],
-		"name": "voters",
+		"name": "superadmins",
 		"outputs": [
 			{
 				"internalType": "bool",
-				"name": "isvoted",
+				"name": "issuperadmin",
 				"type": "bool"
 			}
 		],
@@ -226,13 +188,37 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "zone",
-		"outputs": [
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_candidateIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "voter",
+				"type": "address"
+			}
+		],
+		"name": "voteVF",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"name": "zonesContract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { login, reset } from "../redux/authSlice";
+// import { initWallet, setInitialized} from "../redux/walletSlice.js";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../component/Layout/Layout";
 import Spinner from "../component/Spinner";
@@ -22,6 +23,18 @@ const LoginPageComponent = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //const initialized = useSelector(setInitialized);
+  
+  
+  // const handleInitWallet = async () => {
+  //   if (!initialized) {
+  //     try {
+  //       await dispatch(initWallet());
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
@@ -47,7 +60,10 @@ const LoginPageComponent = () => {
     if (isError) toast.error(message);
     if (isSuccess || (user && !user.isAdmin)) navigate("/");
     else if (isSuccess || (user && user.isAdmin)) navigate("/admin");
-    else if (isSuccess || (user && user.isSuperAdmin)) navigate("/super-admin");
+    else if (isSuccess || (user && user.isSuperAdmin)) {
+      navigate("/super-admin");
+      // handleInitWallet();
+    }
     dispatch(reset());
   }, [user, isError, message, isSuccess, dispatch, navigate]);
 
