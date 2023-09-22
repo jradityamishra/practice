@@ -6,6 +6,16 @@ import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const navigate=useNavigate();
+  const { user } = useSelector(
+    (state) => state.auth
+  )
+  console.log(user)
+  // if(user.isSuperAdmin){
+  //   navigate('/super-admin')
+  // }else if(user.isAdmin){
+  //   navigate('/verify')
+  // }
+  
 const handleClick=()=>{
   navigate('/verify');
 }

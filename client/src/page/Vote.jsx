@@ -15,155 +15,20 @@ import web3 from 'web3'
 // import { useWeb3 } from './Web3Context';
 // import contractInstance from "./contractInstance";
 
-
 const Vote = () => {
-  const contract = useSelector((state) => state.wallet.contract);
-  const [loading,setLoading]=useState(false);
-  const [state,setState]=useState(false);
-  const [data,setData]=useState(false);
+  
+  
+  
 
-  const error = useSelector(setError);
-const candidatesDB = [
-  {
-    id: 1,
-    name: "John Smith",
-    party: "Democratic Party",
-    position: "President",
-    age: 45,
-    experience: "Senator for 10 years",
-    prior_office: "Governor",
-    image_url: "https://example.com/john_smith.jpg",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    party: "Republican Party",
-    position: "President",
-    age: 50,
-    experience: "Business Executive",
-    prior_office: "None",
-    image_url: "https://example.com/jane_doe.jpg",
-  },
-  {
-    id: 3,
-    name: "Robert Johnson",
-    party: "Independent",
-    position: "Governor",
-    age: 55,
-    experience: "Mayor for 2 terms",
-    prior_office: "Mayor",
-    image_url: "https://example.com/robert_johnson.jpg",
-  },
-  {
-    id: 4,
-    name: "Emily Davis",
-    party: "Green Party",
-    position: "Senator",
-    age: 38,
-    experience: "Environmental Advocate",
-    prior_office: "None",
-    image_url: "https://example.com/emily_davis.jpg",
-  },
-  {
-    id: 5,
-    name: "Michael Wilson",
-    party: "Democratic Party",
-    position: "Senator",
-    age: 50,
-    experience: "Former Governor",
-    prior_office: "Governor",
-    image_url: "https://example.com/michael_wilson.jpg",
-  },
-  {
-    id: 6,
-    name: "Sarah Adams",
-    party: "Republican Party",
-    position: "Mayor",
-    age: 42,
-    experience: "Business Owner",
-    prior_office: "City Council Member",
-    image_url: "https://example.com/sarah_adams.jpg",
-  },
-  {
-    id: 7,
-    name: "David Lopez",
-    party: "Independent",
-    position: "Governor",
-    age: 48,
-    experience: "Former Senator",
-    prior_office: "Senator",
-    image_url: "https://example.com/david_lopez.jpg",
-  },
-  {
-    id: 8,
-    name: "Olivia Turner",
-    party: "Democratic Party",
-    position: "Mayor",
-    age: 39,
-    experience: "Community Organizer",
-    prior_office: "None",
-    image_url: "https://example.com/olivia_turner.jpg",
-  },
-];
-//Fetch both the data from database
-const userData = {
-  fullName: "Mickael Poulaz",
-  username: "noobmaster69",
-  imageSrc:
-  "https://static.vecteezy.com/ti/vetor-gratis/p1/2519144-avatar-de-midia-social-gratis-vetor.jpg",
-  emailAddress: "m.poul@example.com",
-  contact: 9876543210,
-  address: "Rajendra Nagar, Kota",
-  zone: 40,
-  voted: false,
-};
-
-  const connectWallet=async()=>{
-    try {
-      setLoading(true);
-
-      if (window.ethereum) {
-        await window.ethereum.send('eth_requestAccounts');
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-
-        if (accounts && accounts.length > 0) {
-          web3.setAccount(accounts[0]);
-        }
-      }
-    } catch (error) {
-      console.error('MetaMask connection error:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    WalletConnectButton();
-  }, []);
-
-
-  const handleVoteClick = async (zoneName,index) => {
-    try {
-      const transaction = await contract.vote(zoneName,index);
-      await transaction.wait();
-     // alert(`Voted Successfully from ${signerAddress}`);
-      setState({ ...state, contract });
-    } catch (error) {
-      console.log(error);
-    }
-    const updatedUserData = { ...data, voted: true };
-    setData(updatedUserData);
-  };
-
+  
   return (
     <Layout>
       <p className="text-4xl font-bold flex justify-center">Vote</p>
 
-      {data.voted ? (
-        <Confirmation />
-      ) : (
+     
         <Grid container spacing={4} className="p-8">
-          {candidatesDB.map((candidate, index) => (
-            <Grid item xs={12} sm={6} key={index}>
+      {/* {candidatesDB.map((candidate, index) => ( */}
+            <Grid item xs={12} sm={6} >
               <div className=" rounded-md bg-gray-200 shadow-lg">
                 <div className="md:flex px-4 leading-none max-w-4xl">
                   <div className="flex-none ">
@@ -174,7 +39,7 @@ const userData = {
                     />{" "}
                     <button
                       type="button"
-                      onClick={handleVoteClick("Ruby",index)}
+                      
                       className="border border-gray-400 text-gray-400 rounded-md p-3 ml-8 my-4 transition duration-500 ease select-none hover:bg-gray-900 focus:outline-none focus:shadow-outline"
                     >
                       VOTE
@@ -183,11 +48,11 @@ const userData = {
 
                   <div className="flex-col text-gray-800">
                     <div className="">
-                      <p className="p-4 text-2xl font-bold">{candidate.name}</p>
+                      <p className="p-4 text-2xl font-bold">lllllll</p>
                     </div>
                     <div className="text-md flex justify-between px-4 my-2">
                       <span className="font-bold">
-                        {candidate.age} | {candidate.party}
+                        23 | BJP
                       </span>
                       <span className="font-bold"></span>
                     </div>
@@ -200,17 +65,17 @@ const userData = {
                     </p>
 
                     <p className="flex text-md p-4 my-4">
-                      Position : {candidate.position}
+                      Position : "MLA"
                       <span className="font-bold px-2">|</span>
-                      Experience : {candidate.experience}
+                      Experience : "5"
                     </p>
                   </div>
                 </div>
               </div>
             </Grid>
-          ))}
+          {/* ))} */}
         </Grid>
-      )}
+      
     </Layout>
   );
 }

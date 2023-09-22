@@ -22,6 +22,7 @@ const Verify = () => {
       try{
         const data=await axios.post('/adhar/getadhardetail',{adharNo:adharNo});
         const adhar=data.data.data.adharNo;
+        localStorage.setItem('adharNo',adhar);
         console.log(adhar)
        
         if(adharNo==adhar){

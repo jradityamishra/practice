@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../component/Layout/Layout'
 import { toast } from "react-toastify";
 import axios from 'axios';
@@ -7,6 +7,7 @@ import Spinner from '../component/Spinner';
 const Adhar = () => {
     const navigate=useNavigate();
     const [adhar,setAdhar]=useState("");
+    const [Checkedadhar,setCheckedAdhar]=useState("");
     const [isLoading,setIsLoading]=useState(false);
    
     console.log(adhar);
@@ -18,12 +19,24 @@ const Adhar = () => {
      const data=localStorage.setItem('adharNo',adhar);
      if(adhar.length>12 && adhar.length<12){
      toast.error("please check Your Adhar Number")
+     }
+     else if(adhar!=Checkedadhar){
+      toast.error("please provide your adhar No")
+      window.location.reload(false);
      }else{
       
       navigate('/facereconition')
       setIsLoading(false);
      }
     }
+    useEffect(()=>{
+      const data=localStorage.getItem('adharNo')
+      if(data){
+        setCheckedAdhar(data);
+        setAdhar(data);
+        console.log(data);
+      }
+    },[])
 
   return (
    <>
@@ -35,7 +48,7 @@ const Adhar = () => {
     type="tel"
     class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
     id="exampleFormControlInputTel"
-    placeholder="Example label"
+    placeholder={Checkedadhar}
     value={adhar}
     onChange={(e) => setAdhar(e.target.value)} />
   <label
