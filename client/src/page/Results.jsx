@@ -1,142 +1,134 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Layout from "../component/Layout/Layout";
 import Grid from "@mui/material/Grid";
+import axios from "axios";
+import { GiLaurelsTrophy } from "react-icons/gi";
+import {
+  BarChart,
+  Bar,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-const candidatesDB = [
-  {
-    id: 1,
-    voteCount: 10000,
-    name: "John Smith",
-    party: "Democratic Party",
-    position: "President",
-    age: 45,
-    experience: "Senator for 10 years",
-    prior_office: "Governor",
-    image_url: "https://example.com/john_smith.jpg",
-  },
-  {
-    id: 2,
-    voteCount: 20000,
-    name: "Jane Doe",
-    party: "Republican Party",
-    position: "President",
-    age: 50,
-    experience: "Business Executive",
-    prior_office: "None",
-    image_url: "https://example.com/jane_doe.jpg",
-  },
-  {
-    id: 3,
-    voteCount: 60000,
-    name: "Robert Johnson",
-    party: "Independent",
-    position: "Governor",
-    age: 55,
-    experience: "Mayor for 2 terms",
-    prior_office: "Mayor",
-    image_url: "https://example.com/robert_johnson.jpg",
-  },
-  {
-    id: 4,
-    voteCount: 60000,
-    name: "Emily Davis",
-    party: "Green Party",
-    position: "Senator",
-    age: 38,
-    experience: "Environmental Advocate",
-    prior_office: "None",
-    image_url: "https://example.com/emily_davis.jpg",
-  },
-  {
-    id: 5,
-    voteCount: 90000,
-    name: "Michael Wilson",
-    party: "Democratic Party",
-    position: "Senator",
-    age: 50,
-    experience: "Former Governor",
-    prior_office: "Governor",
-    image_url: "https://example.com/michael_wilson.jpg",
-  },
-  {
-    id: 6,
-    voteCount: 110000,
-    name: "Sarah Adams",
-    party: "Republican Party",
-    position: "Mayor",
-    age: 42,
-    experience: "Business Owner",
-    prior_office: "City Council Member",
-    image_url: "https://example.com/sarah_adams.jpg",
-  },
-  {
-    id: 7,
-    voteCount: 40000,
-    name: "David Lopez",
-    party: "Independent",
-    position: "Governor",
-    age: 48,
-    experience: "Former Senator",
-    prior_office: "Senator",
-    image_url: "https://example.com/david_lopez.jpg",
-  },
-  {
-    id: 8,
-    voteCount: 1000,
-    name: "Olivia Turner",
-    party: "Democratic Party",
-    position: "Mayor",
-    age: 39,
-    experience: "Community Organizer",
-    prior_office: "None",
-    image_url: "https://example.com/olivia_turner.jpg",
-  },
-];
 //Fetch both the data from database
+// /api/vote/get-results
 
 export default function Vote() {
-  const sortedResults = [...candidatesDB];
+  const [results, setResults] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [winner, setWinner] = React.useState({
+    name: "",
+    partyName: "",
+    votes: "",
+  });
 
-  sortedResults.sort((a, b) => b.voteCount - a.voteCount);
+  useEffect(() => {
+    const getResults = async () => {
+      try {
+        if (loading) {
+          const response = await axios.get(`/api/vote/get-results/`);
+          if (response.data) {
+            console.log(response.data);
+            setResults(response.data.candidatesWithVoteCount);
+            setWinner(response.data.candidateWithMaxVotes);
+            console.log(winner);
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching results:", error);
+      }
+    };
+    getResults();
+  }, []);
 
   return (
     <Layout>
       <p className="text-4xl font-bold flex justify-center">Results</p>
-
-   <div className="flex flex-row ">
-    <div className="flex flex-col w-1/2 flex-wrap">
-    <Grid container spacing={4} className="p-8 w-screen">
-        {sortedResults.map((candidate, index) => (
-          <Grid item xs={12} sm={6} key={index}>
-            <div className=" rounded-md bg-blue-100 shadow-lg">
-              <div className="md:flex px-4 leading-none max-w-4xl">
-                <div className="flex-none ">
-                  <img
-                    src="https://creativereview.imgix.net/content/uploads/2019/12/joker_full.jpg?auto=compress,format&q=60&w=1012&h=1500"
-                    alt="pic"
-                    className="h-40 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg"
-                  />{" "}
+      <div className="flex justify-center flex-col md:flex-row">
+        <div className="md:w-1/2  m-8  flex justify-center flex-col">
+          <div className="items-center flex flex-col justify-center">
+            <div className="bg-[#dbf2b8] rounded-xl mb-16">
+              <div className="flex flex-row items-center justify-center p-8 rounded-xl bg-white shadow-xl translate-x-4 translate-y-4 w-96 md:w-auto shadow-green-100">
+                <div className="mx-8  font-semibold text-xl">
+                  <p className="text-xl flex flex-shrink">
+                    Winner{" "}
+                    <GiLaurelsTrophy
+                      size={30}
+                      className="text-amber-600 ml-4"
+                    />
+                  </p>
+                  <p className="font-bold text-md">
+                    Party : {winner.partyName}
+                  </p>
+                  <br />
+                  <p className="font-bold text-md">Votes : {winner.votes}</p>
+                  <br />
+                  <p className="text-2xl font-bold bg-[#F4F5FA] p-2 mt-3 rounded-lg  border border-[#F0F0F6] shadow-xl">
+                    Name : {winner.name}
+                  </p>
                 </div>
-
-                <div className="flex-col text-gray-800 pb-4">
-                  <div className="">
-                    <p className="p-4 text-2xl font-bold">{candidate.name}</p>
-                  </div>
-                  <div className="text-xl flex justify-between px-4 my-2">
-                    <span className="font-bold">{candidate.party}</span>
-                  </div>
-                  <div className="text-xl flex justify-between px-4 my-2">
-                    <p className="font-bold">Votes : {candidate.voteCount}</p>
-                  </div>
+                <div className="my-4 flex flex-shrink">
+                  <img className="h-40" src={winner.picture} alt="" />
                 </div>
               </div>
             </div>
+            <div>
+              <BarChart width={600} height={250} data={results}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                {/* <Bar dataKey="pv" fill="#8884d8" /> */}
+                <Bar dataKey="voteCount" fill="#a55200" />
+              </BarChart>
+            </div>
+          </div>
+        </div>
+        <div className="md:w-1/2 mt-8">
+          <Grid container spacing={4} className="p-4">
+            {results.map((candidate, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <div className=" rounded-md bg-blue-100 shadow-lg">
+                  <div className="md:flex px-4 leading-none max-w-4xl">
+                    <div className="flex-none ">
+                      <img
+                        src="https://creativereview.imgix.net/content/uploads/2019/12/joker_full.jpg?auto=compress,format&q=60&w=1012&h=1500"
+                        alt="pic"
+                        className="h-32 rounded-md transform -translate-y-4 border-4 border-gray-300 shadow-lg"
+                      />
+                    </div>
+
+                    <div className="flex-col text-gray-800 pb-2">
+                      <div className="">
+                        <p className="p-4 text-xl font-semibold">
+                          {candidate.name}
+                        </p>
+                      </div>
+
+                      <div className="text-lg flex justify-between px-4 my-2">
+                        <p className="font-medium">
+                          Votes : {candidate.voteCount}
+                        </p>
+                      </div>
+
+                      <div className="text-lg flex justify-between px-4 my-2">
+                        <p className="font-medium">
+                          Party : {candidate.partyName}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </div>
-    <div></div>
-   </div>
+        </div>
+      </div>
     </Layout>
   );
 }

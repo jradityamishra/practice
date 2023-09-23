@@ -36,10 +36,11 @@ const Vote = () => {
     try {
       const user = JSON.parse(sessionStorage.getItem("user"));
       const id = user._id;
-     
+
       const res = await axios.put(`/registerCandidate/vote/${id}/${cid}`);
       if (res.status === 201) {
         toast.success("Your vote has been registered! Thank you for voting");
+        sessionStorage.setItem("voted", true);
         navigate("/confirmed");
       }
     } catch (error) {
