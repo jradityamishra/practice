@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Layout from "../component/Layout/Layout";
-
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateCandidate = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     partyName: "",
@@ -30,6 +31,7 @@ const CreateCandidate = () => {
       );
 
       if (res.status === 201) {
+        navigate("/super-admin");
         toast.info("Candidate has been added");
       }
     } catch (err) {

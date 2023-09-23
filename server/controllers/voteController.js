@@ -7,6 +7,7 @@ export const getResults = async (req, res, next) => {
     const candidatesWithVoteCount = candidates.map((candidate) => ({
       name: candidate.name,
       voteCount: candidate.votes,
+      partyName: candidate.partyName,
     }));
 
     let candidateWithMaxVotes = candidates[0];
@@ -22,14 +23,13 @@ export const getResults = async (req, res, next) => {
 
 export const createVoting = async (req, res) => {
   try {
-    const { votingStart, endDate,votingEnd } = req.body;
+    const { votingStart, endDate, votingEnd } = req.body;
 
     // Create a new voting model instance
     const newVoting = new Voting({
       votingStart,
       votingEnd,
-      endDate
-      
+      endDate,
     });
 
     // Save the new voting model to the database
