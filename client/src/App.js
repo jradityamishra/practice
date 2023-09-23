@@ -18,11 +18,13 @@ import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
 import Adhar from "./page/Adhar.js";
 import FaceRecognition from "./page/FaceRecognition.js";
 import { useEffect } from "react";
+import Charts from "./component/Charts.js";
 const App = () => {
   
 
   return (
     <Routes>
+    <Route path='/chart' element={<Charts/>}/>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
