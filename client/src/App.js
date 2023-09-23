@@ -7,6 +7,9 @@ import VerifyPage from "./page/Verify";
 import Vote from "./page/Vote.jsx";
 import Guide from "./page/Guide.jsx";
 import Profile from "./page/Profile.jsx";
+import Confirmation from "./page/Confirmation.jsx";
+import CreateCandidate from "./page/CreateCandidate.jsx";
+
 import axios from "axios";
 import Results from "./page/Results.jsx";
 import Email from "./page/Email.js";
@@ -24,7 +27,7 @@ import Charts from "./component/Charts.js";
 const App = () => {
   return (
     <Routes>
-    <Route path='/chart' element={<Charts/>}/>
+      <Route path="/chart" element={<Charts />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />

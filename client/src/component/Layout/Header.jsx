@@ -54,7 +54,7 @@ const Header = () => {
                 <Link to="/super-admin">Dashboard</Link>
               </li>
             )}
-            {!voted && (
+            {!voted && !user.isAdmin && !user.isSuperAdmin && (
               <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
                 <Link to="/verify">VOTE</Link>
               </li>
