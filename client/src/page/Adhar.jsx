@@ -4,7 +4,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../component/Spinner";
+import { useSelector } from "react-redux";
 const Adhar = () => {
+  const { user} = useSelector(
+    (state) => state.auth
+  );
   const navigate = useNavigate();
   const [adhar, setAdhar] = useState("");
   const [Checkedadhar, setCheckedAdhar] = useState("");
@@ -23,7 +27,11 @@ const Adhar = () => {
       toast.error("please provide your adhar No");
       window.location.reload(false);
     } else {
-      navigate("/facereconition");
+      if(user.isAdmin){
+        navigate('/facereconition/admin')
+      }else{
+        navigate('/facereconition/user')
+      }
       setIsLoading(false);
     }
   };

@@ -7,6 +7,8 @@ import VerifyPage from "./page/Verify";
 import Vote from "./page/Vote.jsx";
 import Guide from "./page/Guide.jsx";
 import Profile from "./page/Profile.jsx";
+import Confirmation from "./page/Confirmation.jsx";
+import CreateCandidate from './page/CreateCandidate.jsx'
 import axios from "axios";
 import Results from "./page/Results.jsx";
 import Email from "./page/Email.js";
@@ -24,6 +26,7 @@ import Charts from "./component/Charts.js";
 const App = () => {
   return (
     <Routes>
+     <Route path="/email/admin" element={<Email />} />
     <Route path='/chart' element={<Charts/>}/>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -43,37 +46,34 @@ const App = () => {
         <Route element={<ProtectedRoute3 />
         }
       >
-          <Route path="/results" element={<Results />} />
+          <Route path="/results/user" element={<Results />} />
         </Route>
 
         <Route element={<ProtectedRoute2 />}>
-         <Route path="/verify" element={<VerifyPage />} />
+         <Route path="/verify/user" element={<VerifyPage />} />
         </Route>
-        <Route path="/email" element={<Email />} />
-        <Route path="/facereconition" element={<FaceRecognition />} />
-        <Route path="/adhar" element={<Adhar />} />
+        <Route path="/email/user" element={<Email />} />
+        <Route path="/facereconition/user" element={<FaceRecognition />} />
+        <Route path="/adhar/user" element={<Adhar />} />
         {/* <Route path="/vote" element={<Vote />} /> */}
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/user" element={<Profile />} />
       </Route>
 
       {/* admin protected routes */}
-      <Route
-        element={
-          <ProtectedRoutes admin={true} superAdmin={false} user={false} />
-        }
-      >
+      <Route element={<ProtectedRoutes admin={true} superAdmin={false} user={false} />}>
         <Route path="/admin" element={<ZoneAdminHome />} />
-        <Route path="/email" element={<Email />} />
-        <Route path="/facereconition" element={<FaceRecognition />} />
+        <Route path="/admin/verify" element={<VerifyPage />} />
+        {/* <Route path="/email/admin" element={<Email />} /> */}
+        <Route path="/facereconition/admin" element={<FaceRecognition />} />
         {/* <Route path="/vote" element={<Vote />} /> */}
-        <Route path="/adhar" element={<Adhar />} />
+        <Route path="/adhar/admin" element={<Adhar />} />
         {/* <Route path="/admin/verify" element={<ZoneAdminVerify />} /> */}
         {/* <Route path="/admin/vote" element={<ZoneAdminVote />} /> */}
 
         <Route element={<ProtectedRoute3 />}>
-          <Route path="/results" element={<Results />} />
+          <Route path="/results/admin" element={<Results />} />
         </Route>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/admin" element={<Profile />} />
       </Route>
 
       {/* superadmin protected routes */}
@@ -85,9 +85,9 @@ const App = () => {
       >
         <Route path="/super-admin" element={<SuperAdmin />} />
         <Route element={<ProtectedRoute3 />}>
-          <Route path="/results" element={<Results />} />
+          <Route path="/results/superadmin" element={<Results />} />
         </Route>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/superadmin" element={<Profile />} />
         <Route path="/create-candidate" element={<CreateCandidate />} />
       </Route>
     </Routes>

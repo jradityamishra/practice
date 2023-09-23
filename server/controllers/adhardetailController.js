@@ -99,3 +99,34 @@ export const get_detail_post_Controller = async (req, resp) => {
             )
     }
 }
+
+
+///check mail is true or not
+
+export const checkadminController=async(req,resp)=>{
+    try{
+        const {adharNo}=req.body;
+
+        const data=await adhardetailShema.find({adharNo});
+        
+        if(data){
+            resp.status(200).send({
+                success:true,
+                message:'we get data',
+                data
+
+            })
+        }else{
+            resp.status(401).send({
+                success:false,
+                message:'we not get data'
+            })
+        }
+    }catch(error){
+        console.log(error)
+        resp.status(500).send({
+            success:false,
+            message:error.message
+        })
+    }
+}

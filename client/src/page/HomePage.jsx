@@ -15,7 +15,11 @@ const HomePage = () => {
   // }
 
   const handleClick = () => {
-    navigate("/verify");
+   if(user.isAdmin){
+    navigate("/admin/verify");
+   }else{
+    navigate('/verify/user')
+   }
   };
 
   return (

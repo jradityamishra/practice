@@ -5,8 +5,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Layout from "../component/Layout/Layout";
 import { Button } from "@mui/material";
-
+//import User from "../../../server/models/UserModel";
+import { useSelector } from "react-redux";
 const FaceRecognition = () => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
   const [adhar, setAdhar] = useState("");
   const [facedata, setFacedata] = useState("");
   const [hasVerified, setHasVerified] = useState(false);
@@ -41,10 +44,18 @@ const FaceRecognition = () => {
       if (data?.success && data.data.faceReconition === true) {
         toast.success(data.message);
 
-        navigate("/email");
+        if(user.isAdmin){
+          navigate('/email/admin')
+        }else{
+          navigate('/email/user')
+        }
       } else {
         toast.error(data.message);
-        navigate("/adhar");
+        if(user.isAdmin){
+          navigate('/adhar/admin')
+        }else{
+          navigate('/adhar/user')
+        }
       }
     } catch (error) {
       console.log(error);
@@ -67,15 +78,15 @@ const FaceRecognition = () => {
   }, [hasVerified]);
   return (
     <Layout>
-      <div className="flex justify-evenly align-center m-5">
+      <div className="flex justify-evenly align-left m-5">
         <div className="flex justify-center flex-col bg-white py-6 px-4 rounded-lg ">
           <img className="rounded" src={adhar.photo} alt="" />
           <h1 className="font-semibold pt-8 text-2xl text-gray-600 flex justify-center">
             {adhar.name}
           </h1>
-          <div className="flex justify-center mt-4">
+          {/* <div className="flex justify-center mt-4">
             <Button variant="contained">Verify</Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>

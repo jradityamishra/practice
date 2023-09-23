@@ -6,8 +6,13 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Spinner from "../component/Spinner";
+import { useSelector } from "react-redux";
 
 const Verify = () => {
+  const { user} = useSelector(
+    (state) => state.auth
+  );
+
   const nav = useNavigate();
   const [adharNo, setAdharNo] = useState("");
   const [adharData, setAdharData] = useState(false);
@@ -28,7 +33,12 @@ const Verify = () => {
         if (adharNo == adhar) {
           // nav('/adhar')
           setAdharData(false);
-          nav("/adhar");
+          // nav("/adhar");
+          if(user.isAdmin){
+            nav('/adhar/admin')
+          }else{
+            nav('/adhar/user')
+          }
         } else {
           toast.error("something is error in matching adhar No");
         }

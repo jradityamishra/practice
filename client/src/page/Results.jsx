@@ -103,7 +103,9 @@ export default function Vote() {
     <Layout>
       <p className="text-4xl font-bold flex justify-center">Results</p>
 
-      <Grid container spacing={4} className="p-8">
+   <div className="flex flex-row ">
+    <div className="flex flex-col w-1/2 flex-wrap">
+    <Grid container spacing={4} className="p-8 w-screen">
         {sortedResults.map((candidate, index) => (
           <Grid item xs={12} sm={6} key={index}>
             <div className=" rounded-md bg-blue-100 shadow-lg">
@@ -132,6 +134,9 @@ export default function Vote() {
           </Grid>
         ))}
       </Grid>
+    </div>
+    <div></div>
+   </div>
     </Layout>
   );
 }

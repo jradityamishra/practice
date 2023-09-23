@@ -34,16 +34,35 @@ const Header = () => {
               ) : user.isSuperAdmin ? (
                 <Link to="/super-admin">Dashboard</Link>
               ) : (
-                <Link to="/verify">VOTE</Link>
+                <Link to="/verify/user">VOTE</Link>
               )}
             </li>
 
-            <li className="my-1">
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li className="my-1">
-              <Link to="/results">Results</Link>
-            </li>
+            {user.isAdmin ? (
+              <>
+                <li className="my-1">
+                  <Link to="/profile/admin">Profile</Link>
+                </li>
+                <li className="my-1">
+                  <Link to="/results/admin">Results</Link>
+                </li>
+              </>
+            ) : user.isSuperAdmin ? (<>
+              <li className="my-1">
+                <Link to="/profile/superadmin">Profile</Link>
+              </li>
+              <li className="my-1">
+                <Link to="/results/superadmin">Results</Link>
+              </li>
+            </>) : (<>
+              <li className="my-1">
+                <Link to="/profile/user">Profile</Link>
+              </li>
+              <li className="my-1">
+                <Link to="/results/user">Results</Link>
+              </li>
+            </>)}
+
             <button
               onClick={() => {
                 dispatch(logout());
@@ -68,11 +87,11 @@ const Header = () => {
                 : "z-10 absolute top-20 left-0 w-full h-100 bg-gray-900 flex flex-col rounded-md justify-center items-center"
             }
           >
-            <li className="my-6 text-4xl border-2 border-white hover:bg-purple-200 hover:text-black p-2 rounded-md">
+            {!user.hasVoted && <li className="my-6 text-4xl border-2 border-white hover:bg-purple-200 hover:text-black p-2 rounded-md">
               <Link onClick={handleClick} to="/verify">
                 Vote
               </Link>
-            </li>
+            </li>}
 
             <li className="my-6 text-4xl">
               <Link onClick={handleClick} to="/profile">

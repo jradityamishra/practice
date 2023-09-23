@@ -17,7 +17,7 @@ const ProtectedRoutes = ({ admin, superAdmin,user }) => {
         const { data } = await axios.get("/api/get-token");
         if (data.token && sessionStorage.getItem("user")) {
           setIsAuth(true);
-          if(data.admin==true||data.isSuperAdmin==true){
+          if(data.isAdmin==true||data.isSuperAdmin==true){
             setIsSuperAdmin(data.isSuperAdmin);
             setIsAdmin(data.isAdmin);
           }else{
