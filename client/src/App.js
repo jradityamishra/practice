@@ -17,10 +17,11 @@ import SuperAdmin from "./page/SuperAdmin.jsx";
 import ZoneAdminHome from "./page/ZoneAdminHome.jsx";
 import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
 import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
-import Adhar from "./page/Adhar.js";
+import Adhar from "./page/Adhar.jsx";
 import FaceRecognition from "./page/FaceRecognition.js";
 import { useEffect } from "react";
 import Confirmation from "./page/Confirmation.jsx";
+import CreateCandidate from "./page/CreateCandidate.jsx";
 const App = () => {
   return (
     <Routes>
@@ -32,17 +33,21 @@ const App = () => {
 
       {/* user protected routes */}
       <Route
+       
         element={
+          
           <ProtectedRoutes admin={false} superAdmin={false} user={true} />
         }
       >
        <Route path="/confirmed" element={<Confirmation />} />
-        <Route element={<ProtectedRoute3 />}>
+        <Route element={<ProtectedRoute3 />
+        }
+      >
           <Route path="/results" element={<Results />} />
         </Route>
 
         <Route element={<ProtectedRoute2 />}>
-          <Route path="/verify" element={<VerifyPage />} />
+         <Route path="/verify" element={<VerifyPage />} />
         </Route>
         <Route path="/email" element={<Email />} />
         <Route path="/facereconition" element={<FaceRecognition />} />
@@ -83,6 +88,7 @@ const App = () => {
           <Route path="/results" element={<Results />} />
         </Route>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/create-candidate" element={<CreateCandidate />} />
       </Route>
     </Routes>
   );

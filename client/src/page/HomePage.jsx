@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../component/Layout/Layout";
 import HeroImg from "../assets/vote.png";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
-  const navigate=useNavigate();
-  const { user } = useSelector(
-    (state) => state.auth
-  )
-  console.log(user)
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
   // if(user.isSuperAdmin){
   //   navigate('/super-admin')
   // }else if(user.isAdmin){
   //   navigate('/verify')
   // }
-  
-const handleClick=()=>{
-  navigate('/verify');
-}
 
+  const handleClick = () => {
+    navigate("/verify");
+  };
 
   return (
     <Layout>
