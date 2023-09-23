@@ -33,21 +33,17 @@ const App = () => {
 
       {/* user protected routes */}
       <Route
-       
         element={
-          
           <ProtectedRoutes admin={false} superAdmin={false} user={true} />
         }
       >
-       <Route path="/confirmed" element={<Confirmation />} />
-        <Route element={<ProtectedRoute3 />
-        }
-      >
+        <Route path="/confirmed" element={<Confirmation />} />
+        <Route element={<ProtectedRoute3 />}>
           <Route path="/results" element={<Results />} />
         </Route>
 
         <Route element={<ProtectedRoute2 />}>
-         <Route path="/verify" element={<VerifyPage />} />
+          <Route path="/verify" element={<VerifyPage />} />
         </Route>
         <Route path="/email" element={<Email />} />
         <Route path="/facereconition" element={<FaceRecognition />} />
