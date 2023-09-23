@@ -1,28 +1,41 @@
 import React, { useState } from "react";
 import Layout from "../component/Layout/Layout";
-import { useSelector } from "react-redux";
+
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const CreateCandidate = () => {
-  const { isLoading } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState({
-    fullname: "",
+    name: "",
     partyName: "",
-    password: "",
-    confirmPassword: "",
-    age: "",
+    position: "",
+    age: 0,
   });
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevUserData) => ({ ...prevUserData, [name]: value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (userData.password !== userData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    } else {
-      setError(null);
+    setLoading(true);
+    console.log("data" + userData);
+    try {
+      const formData = { ...userData };
+      userData.age = parseInt(formData.age, 10); // The second argument specifies the radix (base) for parsing, which is 10 for decimal.
+
+      const res = await axios.post(
+        "/registerCandidate/registercandidate",
+        userData
+      );
+
+      if (res.status === 201) {
+        toast.info("Candidate has been added");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,15 +50,15 @@ const CreateCandidate = () => {
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="fullname"
+                htmlFor="name"
               >
                 Name
               </label>
               <input
                 className="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                name="fullname"
+                name="name"
                 onChange={handleChange}
-                value={userData.fullname}
+                value={userData.name}
                 type="text"
                 required
                 placeholder="Full Name"
@@ -79,9 +92,9 @@ const CreateCandidate = () => {
                 className="appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
                 onChange={handleChange}
                 value={userData.age}
-                type="text"
+                type="number"
                 required
-                placeholder="Phone Number"
+                placeholder="Age"
                 name="age"
               />
             </div>
@@ -98,18 +111,15 @@ const CreateCandidate = () => {
                 value={userData.position}
                 type="position"
                 required
-                placeholder="position"
-                name="Position"
+                placeholder="Position"
+                name="position"
               />
             </div>
-            {error && (
-              <div className="text-red-500 font-semibold mb-2">{error}</div>
-            )}
 
             <button
               className="bg-blue-500 mt-6 w-full hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
               Register
             </button>

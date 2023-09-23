@@ -234,7 +234,7 @@ const SuperAdmin = () => {
     <Layout>
       <div className="flex flex-col">
         <div className="flex gap-4 justify-evenly">
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             {!connected ? (
               <WalletConnectButton connected={changeWallet} />
             ) : (
@@ -245,7 +245,7 @@ const SuperAdmin = () => {
                 Create Booth
               </button>
             )}
-          </div>
+          </div> */}
           <div>
             <Button
               variant="contained"
