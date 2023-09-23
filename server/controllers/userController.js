@@ -105,6 +105,7 @@ export const registerUser = async (req, res, next) => {
           email: user.email,
           isAdmin: user.isAdmin,
           isSuperAdmin: user.isSuperAdmin,
+          hasVoted:user.hasVoted,
         });
     }
   } catch (err) {
@@ -176,6 +177,7 @@ export const loginUser = async (req, res, next) => {
           email: user.email,
           isAdmin: user.isAdmin,
           isSuperAdmin: user.isSuperAdmin,
+          hasVoted:user.hasVoted,
         });
     } else {
       res.status(401).json({ error: "Wrong Credentials" });

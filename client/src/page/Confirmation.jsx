@@ -1,7 +1,11 @@
 import React from "react";
+import Layout from "../component/Layout/Layout";
+
+
 
 const Confirmation = () => {
   return (
+    <Layout>
     <div className="flex flex-col justify-center p-8">
       <div className="flex justify-center font-semibold text-3xl mt-8">
         Your vote has been recorded successfully.
@@ -17,6 +21,7 @@ const Confirmation = () => {
         Thank you
       </div>
     </div>
+    </Layout>
   );
 };
 
