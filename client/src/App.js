@@ -15,7 +15,7 @@ import SuperAdmin from "./page/SuperAdmin.jsx";
 import ZoneAdminHome from "./page/ZoneAdminHome.jsx";
 import ZoneAdminVerify from "./page/ZoneAdminVerify.jsx";
 import ZoneAdminVote from "./page/ZoneAdminVote.jsx";
-import Adhar from "./page/Adhar.js";
+import Adhar from "./page/Adhar.jsx";
 import FaceRecognition from "./page/FaceRecognition.js";
 import { useEffect } from "react";
 import CreateCandidate from "./page/CreateCandidate.jsx";

@@ -11,9 +11,9 @@ import { useSelector } from "react-redux";
 import WalletConnectButton from "../component/WalletConnectButton";
 import { selectError } from "../redux/walletSlice";
 const SuperAdmin = () => {
-  const [selectedZone, setSelectedZone] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  // const [selectedZone, setSelectedZone] = useState("");
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 9;
 
   const [connected, setConnected] = useState(false);
   useEffect(() => {

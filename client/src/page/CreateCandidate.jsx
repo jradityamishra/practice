@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Layout from "../component/Layout/Layout";
-import Spinner from "../component/Spinner";
 import { useSelector } from "react-redux";
 
 const CreateCandidate = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const handlePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { isLoading } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState({
     fullname: "",
     partyName: "",
