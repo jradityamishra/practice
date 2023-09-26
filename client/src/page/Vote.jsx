@@ -33,19 +33,23 @@ const Vote = () => {
     getData();
   }, []);
   const initiateVote = async (cid) => {
-    try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const id = user._id;
+    toast.info('Sending data to blockchain');
+    setTimeout(async () => {
+      try {
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        const id = user._id;
 
-      const res = await axios.put(`/registerCandidate/vote/${id}/${cid}`);
-      if (res.status === 201) {
-        toast.success("Your vote has been registered! Thank you for voting");
-        sessionStorage.setItem("voted", true);
-        navigate("/confirmed");
+        const res = await axios.put(`/registerCandidate/vote/${id}/${cid}`);
+        if (res.status === 201) {
+          toast.success("Your vote has been registered! Thank you for voting");
+          sessionStorage.setItem("voted", true);
+          navigate("/confirmed");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    }, 4000)
+
   };
   if (loading) return <Spinner />;
   return (

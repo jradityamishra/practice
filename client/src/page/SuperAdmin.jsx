@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import WalletConnectButton from "../component/WalletConnectButton";
 import { selectError } from "../redux/walletSlice";
+import Spinner from '../component/Spinner';
+import axios from "axios";
 const SuperAdmin = () => {
   // const [selectedZone, setSelectedZone] = useState("");
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 9;
-
+  const [candidate, setCandidate] = useState([]);
   const [connected, setConnected] = useState(false);
   useEffect(() => {
     const sessionStorageConnected = JSON.parse(
@@ -29,33 +31,33 @@ const SuperAdmin = () => {
   const error = useSelector(selectError);
   const [fetched, setFetched] = useState(false);
   let contract1;
-  // const initContract = async () => {
-  //   try {
-  //     const provider = window.ethereum;
-  //     if (typeof provider === "undefined") {
-  //       toast.error(
-  //         "MetaMask is not installed. Please install it to use this application."
-  //       );
-  //       return;
-  //     }
+  const initContract = async () => {
+    try {
+      const provider = window.ethereum;
+      if (typeof provider === "undefined") {
+        toast.error(
+          "MetaMask is not installed. Please install it to use this application."
+        );
+        return;
+      }
 
-  //     const web3 = new Web3(provider);
-  //     await provider.request({ method: "eth_requestAccounts" });
+      const web3 = new Web3(provider);
+      await provider.request({ method: "eth_requestAccounts" });
 
-  //     contract1 = new web3.eth.Contract(
-  //       ABI,
-  //       "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
-  //     );
-  //     setFetched(true);
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error("An error occurred. Please try again.");
-  //   }
-  // };
+      contract1 = new web3.eth.Contract(
+        ABI,
+        "0x0c8Bc9A045b36ba45798bCFCf7ca55ab8eeb88C6"
+      );
+      setFetched(true);
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
 
-  // useEffect(() => {
-  //   initContract();
-  // }, [fetched]);
+  useEffect(() => {
+    initContract();
+  }, [fetched]);
 
   useEffect(() => {
     if (error) toast.error(error);
@@ -230,6 +232,17 @@ const SuperAdmin = () => {
   //   setCurrentPage(newPage);
   // };
 
+  const [loading, setLoading] = useState(false);
+
+  const data = async () => {
+    const data = await axios.get("/registerCandidate/candidate");
+    setLoading(false);
+    setCandidate(data.data.data);
+  }
+  useEffect(() => {
+    data();
+  }, [])
+  if (loading) return <Spinner />
   return (
     <Layout>
       <div className="flex flex-col">
@@ -318,19 +331,19 @@ const SuperAdmin = () => {
           </div> */}
 
           <Grid container spacing={4} className="p-8">
-            {candidatesDB.map((candidate, index) => (
+            {candidate.map((c, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <div className="flex flex-row justify-between shadow-lg shadow-gray-400 bg-gray-100 rounded-md p-4">
                   <div className="font-semibold">
-                    <p>Name : {candidate.name}</p>
-                    <p>Age : {candidate.age}</p>
-                    <p>Party : {candidate.party}</p>
-                    <p>Position : {candidate.position}</p>
+                    <p>Name : {c.name}</p>
+                    <p>Age : {c.age}</p>
+                    <p>Party : {c.partyName}</p>
+                    <p>Position : {c.position}</p>
                   </div>
                   <div>
                     <img
                       className="h-28 rounded-full"
-                      src={candidate.image_url}
+                      src={c.picture}
                       alt=""
                     />
                   </div>

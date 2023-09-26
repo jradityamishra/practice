@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../component/Layout/Layout";
 import Spinner from "../component/Spinner";
-import { FaUserCircle, FaUpload } from "react-icons/fa"; 
+import { FaUserCircle, FaUpload } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -168,7 +168,7 @@ const Profile = () => {
               <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Full name</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {`${user.firstName} ${user.lastName}`}
+                  {`${user.fullName}`}
                 </dd>
               </div>
               <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -223,7 +223,6 @@ const Profile = () => {
           >
             Set as Profile Picture
           </button>
-
         </div>
       )}
     </Layout>

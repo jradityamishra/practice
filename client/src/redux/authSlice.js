@@ -39,6 +39,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await axios.get("/api/logout");
 
   sessionStorage.removeItem("user");
+  sessionStorage.removeItem("voted");
 
   return null;
 });

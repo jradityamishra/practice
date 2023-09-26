@@ -45,26 +45,50 @@ const Header = () => {
         <div>
           <ul className="hidden md:flex text-xl gap-4 cursor-pointer">
             {user.isAdmin && (
-              <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
-                <Link to="/admin">Dashboard</Link>
-              </li>
+              <>
+                <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
+                  <Link to="/admin">Dashboard</Link>
+                </li>
+                <li className="my-1">
+                  <Link to="/profile/admin">Profile</Link>
+
+                </li>
+                <li className="my-1">
+                  <Link to="/results/admin">Results</Link>
+                </li>
+              </>
             )}
             {user.isSuperAdmin && (
-              <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
-                <Link to="/super-admin">Dashboard</Link>
-              </li>
+              <>
+                <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
+                  <Link to="/super-admin">Dashboard</Link>
+                </li>
+                <li className="my-1">
+                  <Link to="/profile/superadmin">Profile</Link>
+                </li>
+                <li className="my-1">
+                  <Link to="/results/superadmin">Results</Link>
+                </li>
+              </>
             )}
             {!voted && !user.isAdmin && !user.isSuperAdmin && (
-              <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
-                <Link to="/verify">VOTE</Link>
-              </li>
+              <>
+                <li className="border border-white hover:bg-amber-200 hover:text-black py-1 px-2 rounded-md">
+                  <Link to="/verify/user">VOTE</Link>
+                </li>
+
+              </>
             )}
-            <li className="my-1">
-              <Link to="/profile">Profile</Link>
+           {!user.isAdmin && !user.isSuperAdmin && (
+           <> <li className="my-1">
+              <Link to="/profile/user">Profile</Link>
             </li>
             <li className="my-1">
-              <Link to="/results">Results</Link>
-            </li>
+              <Link to="/results/user">Results</Link>
+            </li></>
+           )}
+
+
             <button
               onClick={() => {
                 dispatch(logout());
