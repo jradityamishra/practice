@@ -4,9 +4,7 @@
 
 ![](https://github.com/jradityamishra/practice/blob/main/client/public/preview.png)
 
-## 🔗 Links
 
-The app is live at -
 
 ## 📃Features
 
